@@ -19,17 +19,35 @@ function getLocalNetworkIp() {
   return '127.0.0.1';
 }
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const ROOT_DIR = __dirname;
-const CACHE_DIR = path.join(ROOT_DIR, 'audio_cache');
-const USERS_DIR = path.join(ROOT_DIR, 'data', 'users');
+const IS_VERCEL = Boolean(process.env.VERCEL);
+const CACHE_DIR = IS_VERCEL ? path.join('/tmp', 'audio_cache') : path.join(ROOT_DIR, 'audio_cache');
+const USERS_DIR = IS_VERCEL ? path.join('/tmp', 'data', 'users') : path.join(ROOT_DIR, 'data', 'users');
 
-if (!fs.existsSync(CACHE_DIR)) {
-  fs.mkdirSync(CACHE_DIR, { recursive: true });
-}
-if (!fs.existsSync(USERS_DIR)) {
-  fs.mkdirSync(USERS_DIR, { recursive: true });
-}
+try {
+  if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR, { recursive: true });
+  }
+} catch (e) {}
+
+try {
+  if (!fs.existsSync(USERS_DIR)) {
+    fs.mkdirSync(USERS_DIR, { recursive: true });
+  }
+  // If running on Vercel, copy initial seeded data from bundle to writable /tmp
+  if (IS_VERCEL) {
+    const srcDir = path.join(ROOT_DIR, 'data', 'users');
+    if (fs.existsSync(srcDir)) {
+      const files = fs.readdirSync(srcDir);
+      for (const f of files) {
+        try {
+          fs.copyFileSync(path.join(srcDir, f), path.join(USERS_DIR, f));
+        } catch (e) {}
+      }
+    }
+  }
+} catch (e) {}
 
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -804,9 +822,15 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Essential English Vocab Mastery server running at:`);
-  console.log(`  Local:   http://localhost:${PORT}`);
-  console.log(`  Network: http://${getLocalNetworkIp()}:${PORT}`);
-  console.log(`Neural VoiceLab Audio Engine active (/api/tts)`);
-});
+module.exports = server;
+
+if (process.env.VERCEL) {
+  // On Vercel, serverless handler is used via export
+} else {
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Essential English Vocab Mastery server running at:`);
+    console.log(`  Local:   http://localhost:${PORT}`);
+    console.log(`  Network: http://${getLocalNetworkIp()}:${PORT}`);
+    console.log(`Neural VoiceLab Audio Engine active (/api/tts)`);
+  });
+}
