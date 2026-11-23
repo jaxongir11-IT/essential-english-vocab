@@ -6,6 +6,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#030712">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
   <title>Essential English Vocab Mastery — Pro Edition (4000 Words & Games & Arena)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -5729,6 +5731,13 @@
 
         <li class="nav-label">Tizim & Boshqaruv</li>
         <li>
+          <button class="nav-btn" onclick="openInstallModal()" style="color:#10B981">
+            <span class="nav-icon">📲</span>
+            <span>Ilovani O'rnatish</span>
+            <span class="nav-pill" style="background:rgba(16,185,129,0.2);color:#34D399;border:1px solid rgba(16,185,129,0.3)">APK</span>
+          </button>
+        </li>
+        <li>
           <button class="nav-btn" data-view="settings" onclick="openSettingsModal()">
             <span class="nav-icon">⚙️</span>
             <span>Sozlamalar & Admin</span>
@@ -5797,6 +5806,11 @@
           <button class="btn-action-sm ocr-top-header-btn" onclick="openPhotoOcrModal()" title="Lug'at daftari yoki kitob sahifasini rasmga olib flashcard qilish">
             <span>📸</span>
             <span class="ocr-btn-label" style="white-space:nowrap">Rasm Skaner</span>
+          </button>
+
+          <button class="btn-action-sm btn-install-app" onclick="triggerAppInstall()" title="Ilovani telefonga o'rnatish (APK / App)" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(5,150,105,0.3));border:1.5px solid rgba(16,185,129,0.5);color:#34D399;font-weight:800">
+            <span>📲</span>
+            <span style="white-space:nowrap">O'rnatish (APK)</span>
           </button>
 
           <button class="btn-action-sm" onclick="openVoiceLabModal()" title="Istalgan matnni tashlab VoiceLab ovozida tinglang">
@@ -7335,6 +7349,63 @@
             <span>✨ Flashcard & Unitlarga Saqlash</span>
             <span id="ocrConfirmCountBadge">(0 ta)</span>
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Installation & APK Download Modal -->
+  <div class="modal-overlay" id="installAppModal" onclick="closeInstallModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()" style="max-width:580px;width:95%">
+      <button class="modal-close-x" onclick="closeInstallModal()" title="Yopish (Esc)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <!-- Modal Header -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border-subtle)">
+        <div style="width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;box-shadow:0 8px 20px rgba(16,185,129,0.35);flex-shrink:0">
+          📲
+        </div>
+        <div>
+          <h2 style="font-size:20px;font-weight:900;margin:0 0 4px;color:var(--text-main)">Ilovani Telefonga O'rnatish (APK)</h2>
+          <p style="font-size:12px;color:var(--text-muted);margin:0;line-height:1.4">Essential Vocab dasturini Android yoki iPhone telefoningizga o'rnatib, qulay foydalaning!</p>
+        </div>
+      </div>
+
+      <!-- Installation Methods -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <!-- METHOD 1: Instant 1-Click PWA / WebAPK (Recommended) -->
+        <div style="background:linear-gradient(135deg,rgba(16,185,129,0.12),rgba(5,150,105,0.08));border:1.5px solid rgba(16,185,129,0.4);border-radius:var(--radius-lg);padding:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:14px;font-weight:900;color:#34D399">1-USUL: ⚡ To'g'ridan-to'g'ri O'rnatish (Tavsiya etiladi)</span>
+            <span style="font-size:11px;font-weight:800;background:rgba(16,185,129,0.25);color:#10B981;padding:2px 8px;border-radius:var(--radius-full)">1 Soniyada</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:14px">
+            Brauzer menyusidagi o'rnatish xizmati orqali ilova to'g'ridan-to'g'ri telefoningiz bosh ekraniga (Home Screen) alohida dastur bo'lib tushadi. Hech qanday qo'shimcha fayl qidirish shart emas!
+          </p>
+          <button class="btn-primary" onclick="triggerPwaPrompt()" style="width:100%;padding:13px;font-size:14px;font-weight:900;background:linear-gradient(135deg,#10B981,#059669);border:none;box-shadow:0 8px 25px rgba(16,185,129,0.35);display:flex;align-items:center;justify-content:center;gap:8px">
+            <span>🚀</span>
+            <span>Bosh Ekranga O'rnatish (Install App)</span>
+          </button>
+        </div>
+
+        <!-- METHOD 2: Direct APK Download for Android -->
+        <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:14px;font-weight:900;color:var(--text-main)">2-USUL: 📥 Standalone Android APK Fayli</span>
+            <span style="font-size:11px;font-weight:800;background:rgba(99,102,241,0.2);color:var(--primary);padding:2px 8px;border-radius:var(--radius-full)">.APK</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:14px">
+            Agar to'g'ridan-to'g'ri <code>.apk</code> o'rnatish paketini yuklab olmoqchi bo'lsangiz, quyidagi tugmani bosing va telefoningizda faylni ochib o'rnating.
+          </p>
+          <a href="https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.0/EssentialEnglishVocab.apk" target="_blank" class="btn-hero-ghost" style="width:100%;text-align:center;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4F46E5,#7C3AED);text-decoration:none;border-radius:var(--radius-md);box-shadow:0 6px 20px rgba(79,70,229,0.3)">
+            <span>📦</span>
+            <span>EssentialEnglishVocab.apk Yuklab Olish</span>
+            <span>(v1.0.0)</span>
+          </a>
+          <div style="margin-top:10px;font-size:11px;color:var(--text-muted);line-height:1.4">
+            <em>Eslatma: Telefonda o'rnatayotganda "Noma'lum manbalarga ruxsat berish" (Allow from this source) ni tasdiqlang.</em>
+          </div>
         </div>
       </div>
     </div>
@@ -17112,7 +17183,70 @@ async function submitModernRegister() {
       }, { passive: true });
     }
 
+    /* ==========================================================================
+       PWA SERVICE WORKER & APK INSTALLATION CONTROLLER
+       ========================================================================== */
+    let deferredPwaPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+      const installBtns = document.querySelectorAll('.btn-install-app');
+      installBtns.forEach(btn => {
+        btn.style.display = 'inline-flex';
+      });
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPwaPrompt = null;
+      showToast("🎉 Essential Vocab ilovasi telefoningizga muvaffaqiyatli o'rnatildi!", "success");
+    });
+
+    function openInstallModal() {
+      const modal = document.getElementById('installAppModal');
+      if (modal) modal.classList.add('open');
+    }
+
+    function closeInstallModal(e) {
+      if (e && e.target && e.target !== document.getElementById('installAppModal')) return;
+      const modal = document.getElementById('installAppModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function triggerAppInstall() {
+      if (deferredPwaPrompt) {
+        triggerPwaPrompt();
+      } else {
+        openInstallModal();
+      }
+    }
+
+    async function triggerPwaPrompt() {
+      if (deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        const { outcome } = await deferredPwaPrompt.userChoice;
+        if (outcome === 'accepted') {
+          showToast("Ilova telefoningizga o'rnatilmoqda...", "info");
+        }
+        deferredPwaPrompt = null;
+        closeInstallModal();
+      } else {
+        showToast("💡 Telefoningiz brauzeri menyusini (⋮) oching va 'Bosh ekranga qo'shish' (Add to Home screen) yoki 'Ilovani o'rnatish' tugmasini bosing!", "info");
+      }
+    }
+
+    function registerPwaServiceWorker() {
+      if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
+        navigator.serviceWorker.register('/sw.js').then(reg => {
+          console.log('Essential Vocab ServiceWorker registered:', reg.scope);
+        }).catch(err => {
+          console.warn('ServiceWorker registration error:', err);
+        });
+      }
+    }
+
     async function bootApp() {
+      registerPwaServiceWorker();
       if (typeof loadAllAccounts === 'function') {
         try {
           await loadAllAccounts();

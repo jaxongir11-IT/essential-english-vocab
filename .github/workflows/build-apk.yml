@@ -1,0 +1,65 @@
+name: Build & Release Android APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build Debug APK
+        working-directory: android
+        run: |
+          gradle assembleDebug --stacktrace
+          mkdir -p ../dist-apk
+          cp app/build/outputs/apk/debug/app-debug.apk ../dist-apk/EssentialEnglishVocab.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: EssentialEnglishVocab-APK
+          path: dist-apk/EssentialEnglishVocab.apk
+
+      - name: Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main'
+        with:
+          tag_name: v1.0.0
+          name: "Essential English Vocab Pro v1.0.0 (Android APK)"
+          body: |
+            ## 📱 Essential English Vocab Mastery — Android APK
+            
+            Ushbu APK faylini Android telefoningizga yuklab olib o'rnatishingiz mumkin.
+            
+            ### 🚀 Imkoniyatlar:
+            - 4000 Essential English Words barcha kitoblari va Unitlari
+            - 📸 AI Kamera & Lug'at Daftari Skaneri (Auto Flashcard & Auto Unit)
+            - Spaced Repetition (SM-2) Flashcard tizimi va Tinder-swipe boshqaruvi
+            - 🎮 O'yinlar (Match, Spelling, Quiz) va 1v1 Street Fighter Arena duellari
+            - To'liq offline kesh va bulutli sinxronizatsiya
+            
+            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.0/EssentialEnglishVocab.apk)
+          draft: false
+          prerelease: false
+          files: dist-apk/EssentialEnglishVocab.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
