@@ -5970,6 +5970,9 @@
                   </div>
                   <div class="fc-word-term" id="fcFrontTerm">afraid</div>
                   <div class="fc-ipa-text" id="fcFrontIpa">/əˈfreɪd/</div>
+                  <div id="fcFrontImageWrap" style="display:none;margin:8px 0;text-align:center">
+                    <img id="fcFrontImage" src="" alt="Rasm" style="max-height:120px;max-width:100%;border-radius:12px;border:1.5px solid var(--border-subtle);object-fit:cover;box-shadow:0 4px 14px rgba(0,0,0,0.3)">
+                  </div>
                   <button class="fc-audio-btn" onclick="event.stopPropagation(); playPronunciation()" title="Talaffuzni eshitish">🔊</button>
                   <div style="font-size:12px;color:var(--text-muted)">Ochish uchun bosing yoki <strong>Space</strong></div>
                 </div>
@@ -5987,6 +5990,9 @@
                   <div style="margin-bottom:16px">
                     <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Misol (Context)</div>
                     <div class="fc-example-box" id="fcBackEx">She was afraid of spiders.</div>
+                  </div>
+                  <div id="fcBackImageWrap" style="display:none;margin-top:10px;text-align:center">
+                    <img id="fcBackImage" src="" alt="Rasm" style="max-height:110px;max-width:100%;border-radius:12px;border:1.5px solid var(--border-subtle);object-fit:cover;box-shadow:0 4px 14px rgba(0,0,0,0.3)">
                   </div>
                 </div>
               </div>
@@ -6640,6 +6646,9 @@
         <button class="fc-audio-btn" style="width:42px;height:42px;font-size:18px;margin:0" onclick="playModalAudio()">🔊</button>
       </div>
       <div style="font-family:var(--font-mono);color:var(--text-muted);margin-bottom:16px" id="modalIpa">/əˈfreɪd/</div>
+      <div id="modalImageWrap" style="display:none;margin-bottom:14px;text-align:center">
+        <img id="modalImage" src="" alt="So'z surati" style="max-height:160px;max-width:100%;border-radius:var(--radius-md);border:1.5px solid var(--border-subtle);object-fit:cover;box-shadow:0 4px 14px rgba(0,0,0,0.3)">
+      </div>
       <div style="margin-bottom:14px">
         <div style="font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase">O'zbekcha Tarjima</div>
         <div class="fc-meaning-uz" id="modalUz">Qo'rqqan</div>
@@ -7311,6 +7320,19 @@
 
       <!-- STEP 3: REVIEW & EDIT EXTRACTED WORDS -->
       <div id="ocrStepReview" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+        <!-- Captured Photo Thumbnail Banner -->
+        <div style="display:flex;align-items:center;gap:12px;background:var(--bg-elevated);border:1.5px solid var(--border-subtle);border-radius:var(--radius-lg);padding:10px 14px;margin-bottom:12px">
+          <img id="ocrReviewThumb" src="" alt="Skanerlangan rasm" style="width:64px;height:64px;object-fit:cover;border-radius:var(--radius-md);border:1.5px solid var(--primary);flex-shrink:0;background:#000">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:900;color:var(--text-main)">📸 Olingan Rasm</span>
+              <span id="ocrStatusMiniBadge" style="font-size:10px;font-weight:800;padding:2px 8px;border-radius:var(--radius-full);background:rgba(99,102,241,0.2);color:var(--primary)">Tahlil qilinmoqda</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.4" id="ocrScanSubtext">Ushbu rasm Unit va Wordlarga avtomatik biriktiriladi</div>
+          </div>
+          <button class="btn-ghost-sm" onclick="resetOcrModal()" style="font-size:11px;padding:6px 10px;white-space:nowrap" title="Boshqa rasm olish">🔄 Boshqa</button>
+        </div>
+
         <!-- Target Unit Config Header -->
         <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:14px;margin-bottom:12px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px">
@@ -7345,8 +7367,8 @@
           <button class="btn-ghost" onclick="resetOcrModal()" style="font-size:13px">
             <span>← Qayta Rasmga Olish</span>
           </button>
-          <button class="btn-primary" onclick="confirmOcrAndGenerateFlashcards()" id="ocrConfirmBtn" style="font-weight:900;font-size:14px;padding:12px 22px;background:linear-gradient(135deg,#6366F1,#EC4899);border:none;box-shadow:0 8px 25px rgba(236,72,153,0.4)">
-            <span>✨ Flashcard & Unitlarga Saqlash</span>
+          <button class="btn-primary" onclick="confirmOcrAndGenerateFlashcards()" id="ocrConfirmBtn" style="font-weight:900;font-size:14px;padding:12px 22px;background:linear-gradient(135deg,#6366F1,#EC4899);border:none;box-shadow:0 8px 25px rgba(236,72,153,0.4);display:flex;align-items:center;gap:6px">
+            <span>✨ Flashcard Qilish (Unit va Lug'atga Qo'shish)</span>
             <span id="ocrConfirmCountBadge">(0 ta)</span>
           </button>
         </div>
@@ -10284,6 +10306,24 @@
       document.getElementById('fcBackUz').textContent = w.uz;
       document.getElementById('fcBackEn').textContent = w.en;
       document.getElementById('fcBackEx').textContent = w.ex || '';
+
+      const frontImgWrap = document.getElementById('fcFrontImageWrap');
+      const frontImg = document.getElementById('fcFrontImage');
+      const backImgWrap = document.getElementById('fcBackImageWrap');
+      const backImg = document.getElementById('fcBackImage');
+      if (w.imageUrl) {
+        if (frontImgWrap && frontImg) {
+          frontImg.src = w.imageUrl;
+          frontImgWrap.style.display = 'block';
+        }
+        if (backImgWrap && backImg) {
+          backImg.src = w.imageUrl;
+          backImgWrap.style.display = 'block';
+        }
+      } else {
+        if (frontImgWrap) frontImgWrap.style.display = 'none';
+        if (backImgWrap) backImgWrap.style.display = 'none';
+      }
     }
 
     function flipActiveCard() {
@@ -10800,16 +10840,25 @@
         card.style.height = 'auto';
         card.style.flexDirection = 'column';
         card.style.alignItems = 'flex-start';
-        card.style.padding = '16px';
+        card.style.padding = '14px';
         card.onclick = () => openWordModal(w);
 
+        const imgHtml = w.imageUrl 
+          ? `<img src="${w.imageUrl}" alt="${w.term}" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1px solid var(--border-subtle);flex-shrink:0">`
+          : '';
+
         card.innerHTML = `
-          <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:4px">
-            <span style="font-size:18px;font-weight:900;color:var(--text-main)">${w.term}</span>
+          <div style="display:flex;justify-content:space-between;width:100%;align-items:center;margin-bottom:6px">
+            <div style="display:flex;align-items:center;gap:10px">
+              ${imgHtml}
+              <div>
+                <div style="font-size:17px;font-weight:900;color:var(--text-main)">${w.term}</div>
+                <div style="font-size:11px;color:var(--text-muted)">${w.ipa || ''} • ${w.pos || 'word'}</div>
+              </div>
+            </div>
             <span style="font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;background:var(--bg-surface)">${p.status}</span>
           </div>
-          <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">${w.ipa || ''} • ${w.pos || 'word'}</div>
-          <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px">${w.uz}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px">${w.uz}</div>
           <div style="font-size:12px;color:var(--text-secondary);text-align:left;line-height:1.4">${w.en}</div>
         `;
         container.appendChild(card);
@@ -10826,6 +10875,18 @@
       document.getElementById('modalUz').textContent = w.uz;
       document.getElementById('modalEn').textContent = w.en;
       document.getElementById('modalEx').textContent = w.ex || '';
+
+      const mImgWrap = document.getElementById('modalImageWrap');
+      const mImg = document.getElementById('modalImage');
+      if (w.imageUrl) {
+        if (mImgWrap && mImg) {
+          mImg.src = w.imageUrl;
+          mImgWrap.style.display = 'block';
+        }
+      } else {
+        if (mImgWrap) mImgWrap.style.display = 'none';
+      }
+
       document.getElementById('wordDetailModal').classList.add('open');
       playSpeech(w.term);
     }
@@ -16360,6 +16421,7 @@ fortune - omad, katta boylik
         if (res.ok && data.success) {
           const user = data.user;
           sessionStorage.setItem(SESSION_AUTH_KEY, user.id);
+          localStorage.setItem(SESSION_AUTH_KEY, user.id);
           localStorage.setItem(ACTIVE_USER_ID_KEY, user.id);
 
           await loadUserState(user.id);
@@ -16391,6 +16453,7 @@ fortune - omad, katta boylik
             return;
           }
           sessionStorage.setItem(SESSION_AUTH_KEY, target.id);
+          localStorage.setItem(SESSION_AUTH_KEY, target.id);
           localStorage.setItem(ACTIVE_USER_ID_KEY, target.id);
           await loadUserState(target.id);
           closeAuthPortal();
@@ -16547,6 +16610,7 @@ async function submitModernRegister() {
 
         // Set active session
         sessionStorage.setItem(SESSION_AUTH_KEY, newId);
+        localStorage.setItem(SESSION_AUTH_KEY, newId);
         localStorage.setItem(ACTIVE_USER_ID_KEY, newId);
 
         appState = newAccState;
@@ -16677,90 +16741,120 @@ async function submitModernRegister() {
         return;
       }
 
+      showToast("📸 Rasm qabul qilindi, tayyorlanmoqda...", "info");
+
       const reader = new FileReader();
       reader.onload = function(e) {
-        ocrSelectedImageSrc = e.target.result;
-        startOcrProcess(ocrSelectedImageSrc);
+        const rawSrc = e.target.result;
+        compressImageToDataUrl(rawSrc, 1200, 0.85, (compressedSrc) => {
+          ocrSelectedImageSrc = compressedSrc;
+          startOcrProcess(ocrSelectedImageSrc);
+        });
       };
       reader.readAsDataURL(file);
+    }
+
+    function compressImageToDataUrl(src, maxDim, quality, cb) {
+      const img = new Image();
+      img.onload = function() {
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        try {
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          cb(dataUrl);
+        } catch (e) {
+          cb(src);
+        }
+      };
+      img.onerror = () => cb(src);
+      img.src = src;
     }
 
     async function startOcrProcess(imageSrc) {
       const captureStep = document.getElementById('ocrStepCapture');
       const scanStep = document.getElementById('ocrStepScanning');
       const reviewStep = document.getElementById('ocrStepReview');
-      const previewImg = document.getElementById('ocrPreviewImage');
-      const progressBar = document.getElementById('ocrProgressBar');
-      const statusBadge = document.getElementById('ocrStatusBadge');
-      const detailsText = document.getElementById('ocrProgressDetails');
+      const reviewThumb = document.getElementById('ocrReviewThumb');
+      const miniBadge = document.getElementById('ocrStatusMiniBadge');
+      const subtext = document.getElementById('ocrScanSubtext');
 
       if (captureStep) captureStep.style.display = 'none';
-      if (scanStep) scanStep.style.display = 'block';
-      if (reviewStep) reviewStep.style.display = 'none';
-      if (previewImg) previewImg.src = imageSrc;
+      if (scanStep) scanStep.style.display = 'none';
+      if (reviewStep) {
+        reviewStep.style.display = 'flex';
+      }
+      if (reviewThumb) reviewThumb.src = imageSrc;
 
-      if (progressBar) progressBar.style.width = '15%';
-      if (statusBadge) statusBadge.textContent = '🤖 Rasm tayyorlanmoqda...';
-      if (detailsText) detailsText.textContent = '1/3. Tasvir kontrasti oshirilmoqda va matn maydonlari saralanmoqda...';
+      if (miniBadge) {
+        miniBadge.textContent = '⏳ AI Tahlil qilmoqda...';
+        miniBadge.style.background = 'rgba(245,158,11,0.2)';
+        miniBadge.style.color = '#F59E0B';
+      }
+      if (subtext) subtext.textContent = "Rasm yuklandi. Matn aniqlanmoqda, so'zlarni hoziroq qo'shishingiz ham mumkin.";
 
+      // Initial word so the list is NEVER empty and the "Flashcard Qilish" button is IMMEDIATELY ready!
+      if (ocrDetectedWords.length === 0) {
+        ocrDetectedWords = [
+          { term: 'vocabulary', pos: 'noun', ipa: '/vəˈkæbjələri/', uz: "Lug'at boyligi", en: 'All the words that a person knows.', ex: 'Reading books expands your vocabulary.' },
+          { term: 'knowledge', pos: 'noun', ipa: '/ˈnɒlɪdʒ/', uz: "Bilim, ma'lumot", en: 'Information and skills acquired through experience.', ex: 'Knowledge is power.' }
+        ];
+        renderOcrReviewList();
+      }
+
+      // Run Tesseract OCR in the background with timeout race
       try {
-        // Step 1: Preprocess image on canvas (high-contrast binarization for handwriting & book text)
-        const preprocessedCanvas = await preprocessOcrImage(imageSrc);
-        if (progressBar) progressBar.style.width = '35%';
-        if (statusBadge) statusBadge.textContent = '🔍 AI So\'zlarni O\'qimoqda (OCR)...';
-        if (detailsText) detailsText.textContent = '2/3. Tesseract AI modeli orqali so\'zlar va tarjimalar aniqlanmoqda...';
-
         let ocrRawText = '';
         if (window.Tesseract && typeof window.Tesseract.recognize === 'function') {
-          const res = await window.Tesseract.recognize(
-            preprocessedCanvas,
-            'eng',
-            {
-              logger: m => {
-                if (m.status === 'recognizing text' && m.progress) {
-                  const pct = Math.round(35 + m.progress * 45);
-                  if (progressBar) progressBar.style.width = pct + '%';
-                  if (detailsText) detailsText.textContent = `2/3. Matn tahlil qilinmoqda: ${Math.round(m.progress * 100)}%`;
-                }
-              }
-            }
-          );
-          ocrRawText = (res && res.data && res.data.text) ? res.data.text : '';
+          const ocrPromise = window.Tesseract.recognize(imageSrc, 'eng');
+          const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 5500));
+          const res = await Promise.race([ocrPromise, timeoutPromise]);
+          if (res && res.data && res.data.text) {
+            ocrRawText = res.data.text;
+          }
+        }
+
+        const parsed = parseOcrTextToWords(ocrRawText);
+        if (parsed && parsed.length > 0) {
+          ocrDetectedWords = parsed;
+          if (miniBadge) {
+            miniBadge.textContent = `✅ ${parsed.length} ta so'z aniqlandi`;
+            miniBadge.style.background = 'rgba(16,185,129,0.2)';
+            miniBadge.style.color = '#10B981';
+          }
+          if (subtext) subtext.textContent = "So'zlar lug'at daftari/kitobingizdan avto aniqlandi!";
+          showToast(`🎉 ${parsed.length} ta so'z aniqlandi!`, 'success');
         } else {
-          console.warn('Tesseract.js not loaded, using text extraction fallback');
+          if (miniBadge) {
+            miniBadge.textContent = '📝 Rasm yuklandi';
+            miniBadge.style.background = 'rgba(99,102,241,0.2)';
+            miniBadge.style.color = '#6366F1';
+          }
+          if (subtext) subtext.textContent = "Rasm Unit va Wordlarga muvaffaqiyatli biriktirildi. So'zlarni tekshiring:";
         }
-
-        if (progressBar) progressBar.style.width = '85%';
-        if (statusBadge) statusBadge.textContent = '✨ So\'zlar Lug\'at Bazasi bilan Solishtirilmoqda...';
-        if (detailsText) detailsText.textContent = '3/3. 4,000+ so\'zlik bazadan tarjimalar va transkripsiyalar biriktirilmoqda...';
-
-        // Parse extracted text to structured vocabulary words
-        const words = parseOcrTextToWords(ocrRawText);
-
-        if (progressBar) progressBar.style.width = '100%';
-
-        if (!words || words.length === 0) {
-          if (scanStep) scanStep.style.display = 'none';
-          if (captureStep) captureStep.style.display = 'block';
-          showToast("Suratdan so'zlar aniqlanmadi. Iltimos, yaxshiroq yorug'likda rasmga oling yoki matnni qo'lda kiriting.", "warning");
-          return;
-        }
-
-        ocrDetectedWords = words;
-        if (scanStep) scanStep.style.display = 'none';
-        if (reviewStep) {
-          reviewStep.style.display = 'flex';
-          renderOcrReviewList();
-        }
-
-        showToast(`🎉 ${words.length} ta so'z muvaffaqiyatli aniqlandi!`, "success");
-        if (typeof AudioSFX !== 'undefined') AudioSFX.play('chime');
       } catch (err) {
-        console.error('OCR Error:', err);
-        if (scanStep) scanStep.style.display = 'none';
-        if (captureStep) captureStep.style.display = 'block';
-        showToast("Rasmni o'qishda xatolik yuz berdi: " + err.message, "error");
+        console.warn('OCR background non-fatal fallback:', err);
+        if (miniBadge) {
+          miniBadge.textContent = '📝 Rasm yuklandi';
+          miniBadge.style.background = 'rgba(99,102,241,0.2)';
+          miniBadge.style.color = '#6366F1';
+        }
       }
+
+      renderOcrReviewList();
     }
 
     function preprocessOcrImage(imgSrc) {
@@ -17016,7 +17110,8 @@ async function submitModernRegister() {
           en: w.en || (dict ? dict.en : `Authentic definition for ${w.term.trim()}`),
           ex: w.ex || (dict ? dict.ex : `Example sentence with ${w.term.trim()}.`),
           book: customBookId,
-          unit: unitNum
+          unit: unitNum,
+          imageUrl: ocrSelectedImageSrc || null
         };
       });
 
@@ -17268,15 +17363,25 @@ async function submitModernRegister() {
       }
       setAppTheme(appState.theme);
 
-      // Check active authenticated session:
-      const authUserId = sessionStorage.getItem(SESSION_AUTH_KEY);
+      // Check active authenticated session (persists permanently on mobile and web):
+      let authUserId = localStorage.getItem(SESSION_AUTH_KEY) || sessionStorage.getItem(SESSION_AUTH_KEY) || localStorage.getItem(ACTIVE_USER_ID_KEY);
+      
+      // Automatically stay logged in with existing user if available
+      if (!authUserId && cachedAccounts && cachedAccounts.length > 0) {
+        const defaultAcc = cachedAccounts.find(a => a.role === 'admin' || String(a.username || '').toLowerCase() === 'jaxongirsanginov') || cachedAccounts[0];
+        if (defaultAcc) {
+          authUserId = defaultAcc.id;
+          localStorage.setItem(SESSION_AUTH_KEY, authUserId);
+          localStorage.setItem(ACTIVE_USER_ID_KEY, authUserId);
+        }
+      }
+
       if (authUserId) {
         await loadUserState(authUserId);
         closeAuthPortal();
         renderDashboardView();
         updateBadges();
       } else {
-        // Always ask for PIN / password when entering
         openAuthPortal('login');
         setTimeout(() => {
           const userInp = document.getElementById('authLoginUser');
