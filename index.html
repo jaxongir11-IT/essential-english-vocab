@@ -4343,15 +4343,15 @@
     .auth-portal-card {
       max-width: 480px;
       width: 95%;
-      background: var(--bg-surface);
-      border: 1.5px solid var(--border-strong);
+      background: #0E1E3E;
+      border: 1.5px solid rgba(99, 102, 241, 0.45);
       border-radius: 24px;
       padding: 26px 24px 22px;
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85);
       position: relative;
       animation: modalPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       box-sizing: border-box;
-      margin: auto 0 !important;
+      margin: 20px auto 40px !important;
       flex-shrink: 0 !important;
       max-height: min(92vh, 850px);
       overflow-y: auto;
@@ -6973,6 +6973,9 @@
 
       <!-- ================= 1. SIGN IN (KIRISH) FORM ================= -->
       <div id="authFormLogin" class="auth-mode-pane">
+        <!-- Quick Saved Accounts Row -->
+        <div id="authLoginSavedAccounts" style="margin-bottom:14px;display:none"></div>
+
         <div class="auth-input-group">
           <label class="auth-input-label">Login yoki Foydalanuvchi Nomi:</label>
           <div class="auth-input-wrapper">
@@ -7016,6 +7019,12 @@
           <span style="font-size:18px">👑</span>
           <span>Administrator Rejimi</span>
         </button>
+
+        <div style="text-align:center;margin-top:14px">
+          <button type="button" onclick="continueAsGuest()" style="background:transparent;border:none;color:var(--text-muted);font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">
+            👀 Ro'yxatdan o'tmasdan mehmon sifatida ko'rish
+          </button>
+        </div>
       </div>
 
       <!-- ================= 2. SIGN UP (RO'YXATDAN O'TISH) FORM ================= -->
@@ -16244,6 +16253,7 @@ fortune - omad, katta boylik
         if (tabsBox) tabsBox.style.display = 'flex';
         if (btnLogin) btnLogin.classList.add('active');
         if (btnRegister) btnRegister.classList.remove('active');
+        renderSavedAccountsInLogin();
         const usrInp = document.getElementById('authLoginUser');
         const pinInp = document.getElementById('authLoginPin');
         if (usrInp) {
@@ -16328,6 +16338,57 @@ fortune - omad, katta boylik
         btn.innerHTML = SVG_EYE_OPEN;
         btn.title = "Parolni ko'rsatish";
       }
+    }
+
+    function renderSavedAccountsInLogin() {
+      const container = document.getElementById('authLoginSavedAccounts');
+      if (!container) return;
+      if (!cachedAccounts || cachedAccounts.length === 0) {
+        container.innerHTML = '';
+        container.style.display = 'none';
+        return;
+      }
+      container.style.display = 'block';
+      container.innerHTML = `
+        <div style="font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;letter-spacing:0.5px">
+          Ushbu qurilmadagi saqlangan akkauntlar:
+        </div>
+        <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch">
+          ${cachedAccounts.map(acc => `
+            <div onclick="selectSavedAccountForLogin('${acc.id}')" style="display:flex;align-items:center;gap:8px;background:rgba(99,102,241,0.12);border:1.5px solid rgba(99,102,241,0.3);border-radius:12px;padding:7px 11px;cursor:pointer;flex-shrink:0;transition:all 0.2s ease" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='rgba(99,102,241,0.3)'">
+              <span style="font-size:22px">${acc.avatar || '🦁'}</span>
+              <div style="text-align:left">
+                <div style="font-size:12.5px;font-weight:900;color:var(--text-main);white-space:nowrap">${acc.name}</div>
+                <div style="font-size:10px;color:var(--text-muted)">@${acc.username || 'user'} • Lvl ${acc.level || 1}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function selectSavedAccountForLogin(accId) {
+      const acc = cachedAccounts.find(a => a.id === accId);
+      if (!acc) return;
+      const userInp = document.getElementById('authLoginUser');
+      const pinInp = document.getElementById('authLoginPin');
+      if (userInp) userInp.value = acc.username || acc.name;
+      if (pinInp) {
+        pinInp.value = '';
+        pinInp.focus();
+      }
+      if (typeof AudioSFX !== 'undefined') AudioSFX.play('click');
+    }
+
+    async function continueAsGuest() {
+      const guestId = 'user_default';
+      localStorage.setItem(SESSION_AUTH_KEY, guestId);
+      localStorage.setItem(ACTIVE_USER_ID_KEY, guestId);
+      await loadUserState(guestId);
+      closeAuthPortal();
+      renderDashboardView();
+      updateBadges();
+      showToast("Xush kelibsiz! Siz mehmon rejimidasiz.", "info");
     }
 
     function renderAuthAvatarPills() {
@@ -17378,23 +17439,17 @@ async function submitModernRegister() {
 
       // Check active authenticated session (persists permanently on mobile and web):
       let authUserId = localStorage.getItem(SESSION_AUTH_KEY) || sessionStorage.getItem(SESSION_AUTH_KEY) || localStorage.getItem(ACTIVE_USER_ID_KEY);
-      
-      // Automatically stay logged in directly into Dashboard without auth prompts
-      if (!authUserId) {
-        if (cachedAccounts && cachedAccounts.length > 0) {
-          const defaultAcc = cachedAccounts.find(a => a.role === 'admin' || String(a.username || '').toLowerCase() === 'jaxongirsanginov') || cachedAccounts[0];
-          authUserId = defaultAcc ? defaultAcc.id : 'user_default';
-        } else {
-          authUserId = 'user_default';
-        }
-        localStorage.setItem(SESSION_AUTH_KEY, authUserId);
-        localStorage.setItem(ACTIVE_USER_ID_KEY, authUserId);
-      }
 
-      await loadUserState(authUserId);
-      closeAuthPortal();
-      renderDashboardView();
-      updateBadges();
+      if (authUserId) {
+        await loadUserState(authUserId);
+        closeAuthPortal();
+        renderDashboardView();
+        updateBadges();
+      } else {
+        // Show auth portal so every new person gets their personal registration and account
+        const hasExisting = cachedAccounts && cachedAccounts.length > 0;
+        openAuthPortal(hasExisting ? 'login' : 'register');
+      }
     }
 
     if (document.readyState === 'loading') {

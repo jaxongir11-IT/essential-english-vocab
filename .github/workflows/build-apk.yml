@@ -48,17 +48,17 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main'
         with:
-          tag_name: v1.0.2
-          name: "Essential English Vocab Pro v1.0.2 (Direct Dashboard Launch & High Contrast Blue Theme)"
+          tag_name: v1.0.3
+          name: "Essential English Vocab Pro v1.0.3 (Personal Accounts & Registration System)"
           body: |
-            ## 📱 Essential English Vocab Mastery — Android APK (v1.0.2)
+            ## 📱 Essential English Vocab Mastery — Android APK (v1.0.3)
 
-            - 🚀 Ilovaga kirishda login oynasi chiqib to'sib qolishi to'liq olib tashlandi: dastur to'g'ridan-to'g'ri Asosiy Dashboard sahifasida ochiladi!
-            - 🌌 Yuqori kontrastli va chiroyli Cyber Blue mavzusi faollashtirildi (qorong'uda qora bo'lib qolmaydi).
-            - 🎨 Yangi 3D Glowing App Icon & Launcher logotipi o'rnatilgan.
-            - 📸 AI Kamera & Lug'at Daftari Skaneri (Auto Flashcard & Auto Unit).
+            - 👤 **Shaxsiy Akkaunt & Ro'yxatdan O'tish:** Har bir foydalanuvchi o'z ismi, logini, avatari va ixtiyoriy 4 xonali PIN kodi bilan shaxsiy profil ochishi mumkin!
+            - 📊 **Alohida Natijalar:** Har bir o'quvchining o'z shaxsiy XP ballari, darajasi (Level 1-100), o'rgangan so'zlari va xotira takrorlash (SM-2) jadvali mustaqil saqlanadi.
+            - 👥 **Qurilmadagi Akkauntlar:** Bitta telefonda bir nechta talaba akkauntlarini saqlab, bir bosishda almashtirib dars qilish imkoniyati.
+            - 🎨 **Ultra Cyber Blue Dizayn:** To'liq tiniq, kontrastli va zamonaviy 3D logotipli interfeys.
 
-            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.2/EssentialEnglishVocab.apk)
+            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.3/EssentialEnglishVocab.apk)
           draft: false
           prerelease: false
           files: dist-apk/EssentialEnglishVocab.apk
