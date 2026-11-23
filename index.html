@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="uz" data-theme="black">
+<html lang="uz" data-theme="blue">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#030712">
+  <meta name="theme-color" content="#091329">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="manifest" href="/manifest.json">
@@ -4706,10 +4706,10 @@
     .welcome-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(11, 15, 25, 0.94);
+      background: rgba(9, 19, 41, 0.94);
       backdrop-filter: blur(16px);
       z-index: 99999;
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start !important;
@@ -4718,13 +4718,16 @@
       overflow-x: hidden !important;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      pointer-events: none;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
       box-sizing: border-box;
       -webkit-overflow-scrolling: touch;
     }
     .welcome-overlay.open {
-      opacity: 1;
-      visibility: visible;
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
     }
     .welcome-profile-card {
       display: flex;
@@ -16186,14 +16189,22 @@ fortune - omad, katta boylik
     function openAuthPortal(mode = 'login') {
       const overlay = document.getElementById('accountsWelcomeOverlay');
       if (!overlay) return;
+      overlay.style.display = 'flex';
       switchAuthMode(mode);
       overlay.scrollTop = 0;
-      overlay.classList.add('open');
+      setTimeout(() => overlay.classList.add('open'), 10);
     }
 
     function closeAuthPortal() {
       const overlay = document.getElementById('accountsWelcomeOverlay');
-      if (overlay) overlay.classList.remove('open');
+      if (overlay) {
+        overlay.classList.remove('open');
+        setTimeout(() => {
+          if (!overlay.classList.contains('open')) {
+            overlay.style.display = 'none';
+          }
+        }, 250);
+      }
     }
 
     function openWelcomeOverlay() {
@@ -17361,40 +17372,29 @@ async function submitModernRegister() {
       setupBookCoverDragAndDrop();
       initFlashcardTouchGestures();
       if (!appState.theme || !['blue', 'green', 'cream', 'black'].includes(appState.theme)) {
-        appState.theme = appState.theme === 'light' ? 'cream' : 'black';
+        appState.theme = 'blue';
       }
       setAppTheme(appState.theme);
 
       // Check active authenticated session (persists permanently on mobile and web):
       let authUserId = localStorage.getItem(SESSION_AUTH_KEY) || sessionStorage.getItem(SESSION_AUTH_KEY) || localStorage.getItem(ACTIVE_USER_ID_KEY);
       
-      // Automatically stay logged in with existing user if available
-      if (!authUserId && cachedAccounts && cachedAccounts.length > 0) {
-        const defaultAcc = cachedAccounts.find(a => a.role === 'admin' || String(a.username || '').toLowerCase() === 'jaxongirsanginov') || cachedAccounts[0];
-        if (defaultAcc) {
-          authUserId = defaultAcc.id;
-          localStorage.setItem(SESSION_AUTH_KEY, authUserId);
-          localStorage.setItem(ACTIVE_USER_ID_KEY, authUserId);
+      // Automatically stay logged in directly into Dashboard without auth prompts
+      if (!authUserId) {
+        if (cachedAccounts && cachedAccounts.length > 0) {
+          const defaultAcc = cachedAccounts.find(a => a.role === 'admin' || String(a.username || '').toLowerCase() === 'jaxongirsanginov') || cachedAccounts[0];
+          authUserId = defaultAcc ? defaultAcc.id : 'user_default';
+        } else {
+          authUserId = 'user_default';
         }
+        localStorage.setItem(SESSION_AUTH_KEY, authUserId);
+        localStorage.setItem(ACTIVE_USER_ID_KEY, authUserId);
       }
 
-      if (authUserId) {
-        await loadUserState(authUserId);
-        closeAuthPortal();
-        renderDashboardView();
-        updateBadges();
-      } else {
-        openAuthPortal('login');
-        setTimeout(() => {
-          const userInp = document.getElementById('authLoginUser');
-          const pinInp = document.getElementById('authLoginPin');
-          if (userInp) {
-            userInp.value = '';
-            userInp.focus();
-          }
-          if (pinInp) pinInp.value = '';
-        }, 150);
-      }
+      await loadUserState(authUserId);
+      closeAuthPortal();
+      renderDashboardView();
+      updateBadges();
     }
 
     if (document.readyState === 'loading') {
