@@ -824,13 +824,6 @@ const server = http.createServer(async (req, res) => {
 
 module.exports = server;
 
-if (process.env.VERCEL) {
-  // On Vercel, serverless handler is used via export
-} else {
-  server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Essential English Vocab Mastery server running at:`);
-    console.log(`  Local:   http://localhost:${PORT}`);
-    console.log(`  Network: http://${getLocalNetworkIp()}:${PORT}`);
-    console.log(`Neural VoiceLab Audio Engine active (/api/tts)`);
-  });
-}
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Essential English Vocab Mastery server running on port ${PORT}`);
+});
