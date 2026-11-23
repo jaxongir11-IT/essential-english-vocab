@@ -2,13 +2,18 @@
 <html lang="uz" data-theme="black">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#030712">
   <title>Essential English Vocab Mastery — Pro Edition (4000 Words & Games & Arena)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- PDF.js for in-browser PDF parsing -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- Tesseract.js for Camera & Photo OCR Vocabulary Scanning -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     /* ==========================================================================
        1. ULTRA-PREMIUM DESIGN SYSTEM (Apple + Duolingo + Notion)
@@ -4771,17 +4776,282 @@
     }
 
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
+      body {
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .sidebar { transform: translateX(-100%); width: 280px; z-index: 1000; }
       .sidebar.open { transform: translateX(0); }
-      .main-area { margin-left: 0; padding-bottom: 74px; }
+      .main-area { margin-left: 0; padding-bottom: calc(env(safe-area-inset-bottom) + 80px); width: 100%; max-width: 100vw; overflow-x: hidden; }
+      .top-header {
+        height: 58px;
+        padding: 0 12px;
+        gap: 6px;
+      }
+      .header-breadcrumb {
+        font-size: 13px;
+        max-width: 110px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .header-actions {
+        gap: 6px;
+      }
+      .header-actions .xp-badge,
+      .header-actions .theme-palette-picker,
+      .header-actions .hide-mobile {
+        display: none !important;
+      }
+      .streak-badge {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+      .account-header-pill {
+        padding: 4px 8px;
+        gap: 6px;
+      }
+      .account-name-mini {
+        max-width: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .menu-burger { display: block; }
       .mobile-tab-bar { display: flex; }
       .books-showcase { grid-template-columns: 1fr; }
-      .stats-overview { grid-template-columns: 1fr; }
-      .match-tiles-grid { grid-template-columns: repeat(2, 1fr); }
-      .page-content { padding: 18px 14px; }
-      .fc-word-term { font-size: 34px; }
-      .rating-row { grid-template-columns: repeat(2, 1fr); }
+      .stats-overview { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat-box { padding: 14px 12px; }
+      .match-tiles-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .page-content { padding: 14px 12px; }
+      .fc-word-term { font-size: 32px; }
+      .rating-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .flashcard-3d-scene { height: 340px; }
+      .modal-box { width: 95% !important; max-height: 90vh !important; padding: 20px 16px !important; }
+      .ocr-hero-card { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px; }
+      .ocr-hero-cta-btn { width: 100%; justify-content: center; }
+      .ocr-action-grid { grid-template-columns: 1fr !important; }
+    }
+
+    /* AI Photo / Camera Vocabulary Scanner Styles */
+    .ocr-top-header-btn {
+      background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(236,72,153,0.3)) !important;
+      border: 1.5px solid rgba(236,72,153,0.6) !important;
+      color: #fff !important;
+      font-weight: 800;
+      animation: pulseGlow 2.5s infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(236,72,153,0.25); }
+      50% { box-shadow: 0 0 20px rgba(99,102,241,0.55); }
+    }
+
+    .ocr-hero-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(236, 72, 153, 0.18) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.4);
+      border-radius: var(--radius-xl);
+      padding: 22px 26px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+      transition: all 0.25s var(--spring);
+      position: relative;
+      overflow: hidden;
+    }
+    .ocr-hero-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(236, 72, 153, 0.6);
+      box-shadow: 0 14px 40px rgba(236, 72, 153, 0.25);
+    }
+    .ocr-hero-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .ocr-icon-bubble {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #6366F1, #EC4899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+    .ocr-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #F472B6;
+      letter-spacing: 0.6px;
+      margin-bottom: 4px;
+    }
+    .ocr-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text-main);
+      margin: 0 0 4px;
+    }
+    .ocr-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+      max-width: 580px;
+      line-height: 1.4;
+    }
+    .ocr-hero-cta-btn {
+      background: linear-gradient(135deg, #6366F1, #EC4899);
+      border: none;
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .ocr-hero-cta-btn:hover {
+      transform: scale(1.04);
+    }
+
+    .ocr-action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .ocr-choice-card {
+      background: var(--bg-elevated);
+      border: 2px dashed var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 22px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-main);
+    }
+    .ocr-choice-card:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.08);
+      transform: translateY(-2px);
+    }
+    .ocr-choice-card.primary {
+      border-color: rgba(99, 102, 241, 0.5);
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.08), transparent);
+    }
+    .ocr-choice-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    .ocr-choice-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .ocr-choice-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .ocr-scanner-frame {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid rgba(99, 102, 241, 0.4);
+      background: #000;
+    }
+    .ocr-scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #EC4899, #6366F1, transparent);
+      box-shadow: 0 0 15px #EC4899;
+      animation: scanLaser 2s ease-in-out infinite alternate;
+    }
+    @keyframes scanLaser {
+      0% { top: 5%; }
+      100% { top: 95%; }
+    }
+    .ocr-progress-shell {
+      height: 8px;
+      background: var(--bg-input);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .ocr-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #6366F1, #EC4899);
+      border-radius: var(--radius-full);
+      transition: width 0.3s ease;
+    }
+
+    .ocr-word-review-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+    .ocr-word-review-card:hover {
+      border-color: var(--border-strong);
+    }
+    .ocr-word-term-input {
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--text-main);
+      background: transparent;
+      border: none;
+      border-bottom: 1px dashed var(--border-strong);
+      padding: 2px 4px;
+      width: 140px;
+    }
+    .ocr-word-uz-input {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--accent);
+      background: transparent;
+      border: none;
+      border-bottom: 1px dashed var(--border-strong);
+      padding: 2px 4px;
+      flex: 1;
+    }
+    .ocr-word-term-input:focus, .ocr-word-uz-input:focus {
+      outline: none;
+      border-bottom-color: var(--primary);
+    }
+
+    .mobile-tab-btn.ocr-tab-highlight .tab-icon {
+      background: linear-gradient(135deg, #6366F1, #EC4899);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.5);
+      margin-top: -10px;
+      font-size: 18px;
     }
   
     /* ==========================================================================
@@ -5524,6 +5794,11 @@
             <span class="account-caret-icon">▼</span>
           </button>
 
+          <button class="btn-action-sm ocr-top-header-btn" onclick="openPhotoOcrModal()" title="Lug'at daftari yoki kitob sahifasini rasmga olib flashcard qilish">
+            <span>📸</span>
+            <span class="ocr-btn-label" style="white-space:nowrap">Rasm Skaner</span>
+          </button>
+
           <button class="btn-action-sm" onclick="openVoiceLabModal()" title="Istalgan matnni tashlab VoiceLab ovozida tinglang">
             <span>🎙️</span>
             <span style="white-space:nowrap">Matn O'qitish</span>
@@ -5566,6 +5841,22 @@
               <button class="btn-hero-ghost" style="color:#fff" onclick="switchView('games')">🎮 O'yinlar</button>
               <button class="btn-hero-ghost" style="color:#fff" onclick="switchView('arena')">⚔️ 1v1 Duelga Kirish</button>
             </div>
+          </div>
+
+          <!-- AI Photo & Notebook Vocabulary Scanner Hero Card -->
+          <div class="ocr-hero-card" onclick="openPhotoOcrModal()">
+            <div class="ocr-hero-left">
+              <div class="ocr-icon-bubble">📸</div>
+              <div>
+                <div class="ocr-badge">AI RASM VA LUG'AT DAFTAR SKANERI</div>
+                <h3 class="ocr-title">Lug'at daftar yoki kitobingizni rasmga oling</h3>
+                <p class="ocr-desc">Kameradan suratga oling yoki rasmni yuklang — AI so'zlarni avtomatik o'qib, tarjimalari va transkripsiyasi bilan yangi Unit va Flashcardlarga aylantirib beradi!</p>
+              </div>
+            </div>
+            <button class="ocr-hero-cta-btn" onclick="event.stopPropagation(); openPhotoOcrModal()">
+              <span>⚡ Rasmga Olish</span>
+              <span>→</span>
+            </button>
           </div>
 
           <!-- Stats Grid -->
@@ -6308,11 +6599,14 @@
       <span class="tab-icon">⚡</span>
       <span>Study</span>
     </button>
+    <button class="mobile-tab-btn ocr-tab-highlight" onclick="openPhotoOcrModal()" title="Lug'at daftar yoki kitobni rasmga olish">
+      <span class="tab-icon">📸</span>
+      <span>Skaner</span>
+    </button>
     <button class="mobile-tab-btn" data-view="story" onclick="switchView('story')">
       <span class="tab-icon">📖</span>
       <span>Hikoya</span>
     </button>
-    
     <button class="mobile-tab-btn" data-view="wordbank" onclick="switchView('wordbank')">
       <span class="tab-icon">🔤</span>
       <span>Lug'at</span>
@@ -6915,6 +7209,132 @@
         <!-- Main Content Area -->
         <div class="settings-main-content" id="settingsTabContent">
           <!-- Populated dynamically by switchSettingsTab() -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Photo & Notebook Vocabulary Scanner Modal -->
+  <div class="modal-overlay" id="photoOcrModal" onclick="closePhotoOcrModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()" style="max-width:740px;width:95%;max-height:92vh;display:flex;flex-direction:column">
+      <button class="modal-close-x" onclick="closePhotoOcrModal()" title="Yopish (Esc)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <!-- Modal Header -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border-subtle)">
+        <div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#6366F1,#EC4899);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;box-shadow:0 8px 20px rgba(99,102,241,0.35);flex-shrink:0">
+          📸
+        </div>
+        <div>
+          <h2 style="font-size:20px;font-weight:900;margin:0 0 4px;color:var(--text-main)">AI Rasm & Lug'at Daftari Skaneri</h2>
+          <p style="font-size:12px;color:var(--text-muted);margin:0;line-height:1.4">Telefon kamerasida lug'at daftaringiz yoki kitob sahifasini suratga oling — so'zlar avto aniqlanadi!</p>
+        </div>
+      </div>
+
+      <!-- STEP 1: CAPTURE & UPLOAD SCREEN -->
+      <div id="ocrStepCapture" style="overflow-y:auto;padding-right:2px">
+        <div class="ocr-action-grid">
+          <!-- Camera Action Card -->
+          <div class="ocr-choice-card" onclick="document.getElementById('ocrCameraInput').click()">
+            <div style="font-size:42px;margin-bottom:10px">📸</div>
+            <div style="font-size:16px;font-weight:800;color:var(--text-main);margin-bottom:6px">Kamerada Rasmga Olish</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.4">Telefon kamerasini yoqadi. Lug'at daftari yoki kitob sahifasini to'g'irlab bosing.</div>
+            <div style="margin-top:14px;display:inline-block;padding:6px 14px;background:linear-gradient(135deg,#6366F1,#EC4899);color:#fff;border-radius:var(--radius-full);font-size:12px;font-weight:800">Suratga Olish →</div>
+            <input type="file" id="ocrCameraInput" accept="image/*" capture="environment" style="display:none" onchange="handleOcrFileInput(this)">
+          </div>
+
+          <!-- Gallery Action Card -->
+          <div class="ocr-choice-card" onclick="document.getElementById('ocrGalleryInput').click()">
+            <div style="font-size:42px;margin-bottom:10px">🖼️</div>
+            <div style="font-size:16px;font-weight:800;color:var(--text-main);margin-bottom:6px">Galereyadan Yuklash</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.4">Telefoningiz galereyasi yoki fayllardan mavjud fotosuratni tanlang.</div>
+            <div style="margin-top:14px;display:inline-block;padding:6px 14px;background:var(--bg-card);border:1px solid var(--border-strong);color:var(--text-main);border-radius:var(--radius-full);font-size:12px;font-weight:700">Fayl Tanlash →</div>
+            <input type="file" id="ocrGalleryInput" accept="image/*" style="display:none" onchange="handleOcrFileInput(this)">
+          </div>
+        </div>
+
+        <!-- Manual Quick Text Option -->
+        <div style="margin-top:16px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:13px;font-weight:800;color:var(--text-main)">📝 Yoki lug'at matnini to'g'ridan-to'g'ri tashlang:</span>
+            <span style="font-size:11px;color:var(--text-muted)">(word - translation)</span>
+          </div>
+          <textarea id="ocrQuickTextarea" class="form-input" style="height:70px;resize:vertical;font-size:13px;font-family:var(--font-mono)" placeholder="apple - olma&#10;beautiful - chiroyli&#10;knowledge : bilim"></textarea>
+          <div style="display:flex;justify-content:flex-end;margin-top:8px">
+            <button class="btn-action-sm" onclick="processQuickOcrText()" style="font-size:12px">⚡ Matndan So'zlarni Ajratish</button>
+          </div>
+        </div>
+
+        <!-- Tips Banner -->
+        <div style="margin-top:14px;background:rgba(99,102,241,0.08);border:1px dashed rgba(99,102,241,0.3);border-radius:var(--radius-lg);padding:14px">
+          <div style="font-size:12px;font-weight:800;color:var(--primary);margin-bottom:6px">💡 AI Skanerdan Samarali Foydalanish Maslahatlari:</div>
+          <ul style="margin:0;padding-left:18px;font-size:11.5px;color:var(--text-muted);line-height:1.6">
+            <li><strong>Lug'at daftari:</strong> Agar yozuvlar <code>apple - olma</code> yoki <code>book : kitob</code> ko'rinishida bo'lsa, AI tarjimalari bilan birga taniydi.</li>
+            <li><strong>Faqat inglizcha matn:</strong> Agar kitob yoki ro'yxatda faqat inglizcha so'zlar bo'lsa ham muammo emas — tizim 4,000+ so'zlik lug'at bazasidan o'zbekcha tarjima, transkripsiya va audiolarni avtomatik biriktiradi!</li>
+            <li><strong>Yorug'lik:</strong> Rasmni tushirayotganda soya tushmasligiga va so'zlar aniq ko'rinishiga e'tibor bering.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 2: SCANNING & PROCESSING ANIMATION -->
+      <div id="ocrStepScanning" style="display:none;padding:20px 0;text-align:center">
+        <div class="ocr-scanner-frame" style="max-height:260px;margin:0 auto 18px;max-width:380px;position:relative;border-radius:var(--radius-lg);overflow:hidden;border:2px solid var(--primary);box-shadow:0 0 25px rgba(99,102,241,0.35);background:#000">
+          <img id="ocrPreviewImage" src="" alt="OCR Preview" style="width:100%;height:240px;object-fit:contain;display:block">
+          <div class="ocr-scan-line"></div>
+        </div>
+
+        <div id="ocrStatusBadge" style="font-size:16px;font-weight:900;color:var(--primary);margin-bottom:8px">
+          🤖 AI Matnni Tahlil Qilmoqda...
+        </div>
+        <div class="ocr-progress-shell" style="max-width:400px;margin:0 auto 10px;height:12px;background:var(--bg-elevated);border-radius:var(--radius-full);overflow:hidden;border:1px solid var(--border-strong)">
+          <div class="ocr-progress-fill" id="ocrProgressBar" style="width:20%;height:100%;background:linear-gradient(90deg,#6366F1,#EC4899);border-radius:var(--radius-full);transition:width 0.3s ease"></div>
+        </div>
+        <div id="ocrProgressDetails" style="font-size:12px;color:var(--text-muted)">
+          Rasm yuklandi. Matn elementlari aniqlanmoqda...
+        </div>
+      </div>
+
+      <!-- STEP 3: REVIEW & EDIT EXTRACTED WORDS -->
+      <div id="ocrStepReview" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+        <!-- Target Unit Config Header -->
+        <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:14px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+            <div>
+              <span style="font-size:14px;font-weight:900;color:var(--text-main)">Topilgan So'zlar: </span>
+              <span style="font-size:14px;font-weight:900;color:var(--primary)" id="ocrDetectedCountBadge">0 ta</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted)">Har 20 ta so'zdan avto Unit shakllanadi</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span style="font-size:12px;font-weight:700;color:var(--text-muted);white-space:nowrap">To'plam / Unit Nomi:</span>
+            <input type="text" id="ocrTargetUnitName" class="form-input" style="padding:6px 12px;font-size:13px;flex:1" value="Lug'at Daftari (Skanerlangan)">
+          </div>
+        </div>
+
+        <!-- Words List (Scrollable) -->
+        <div id="ocrWordsContainer" style="flex:1;max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding-right:6px">
+          <!-- Dynamically populated by renderOcrReviewList() -->
+        </div>
+
+        <!-- Add extra word manually -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-subtle)">
+          <button class="btn-ghost" onclick="addOcrEmptyWordRow()" style="font-size:12px;padding:6px 12px">
+            <span>➕</span>
+            <span>Yana So'z Qo'shish</span>
+          </button>
+          <span style="font-size:11px;color:var(--text-muted)">Istalgan so'z yoki tarjimani o'zgartirishingiz mumkin</span>
+        </div>
+
+        <!-- Bottom Actions -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:12px">
+          <button class="btn-ghost" onclick="resetOcrModal()" style="font-size:13px">
+            <span>← Qayta Rasmga Olish</span>
+          </button>
+          <button class="btn-primary" onclick="confirmOcrAndGenerateFlashcards()" id="ocrConfirmBtn" style="font-weight:900;font-size:14px;padding:12px 22px;background:linear-gradient(135deg,#6366F1,#EC4899);border:none;box-shadow:0 8px 25px rgba(236,72,153,0.4)">
+            <span>✨ Flashcard & Unitlarga Saqlash</span>
+            <span id="ocrConfirmCountBadge">(0 ta)</span>
+          </button>
         </div>
       </div>
     </div>
@@ -16134,6 +16554,564 @@ async function submitModernRegister() {
       }
     }
 
+    /* ==========================================================================
+       AI PHOTO & NOTEBOOK OCR FLASHCARD & MOBILE SWIPE ENGINE
+       ========================================================================== */
+    let ocrDetectedWords = [];
+    let ocrSelectedImageSrc = null;
+
+    function openPhotoOcrModal() {
+      const modal = document.getElementById('photoOcrModal');
+      if (!modal) return;
+      resetOcrModal();
+      modal.classList.add('open');
+    }
+
+    function closePhotoOcrModal(e) {
+      if (e && e.target && e.target !== document.getElementById('photoOcrModal')) return;
+      const modal = document.getElementById('photoOcrModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function resetOcrModal() {
+      ocrDetectedWords = [];
+      ocrSelectedImageSrc = null;
+      const captureStep = document.getElementById('ocrStepCapture');
+      const scanStep = document.getElementById('ocrStepScanning');
+      const reviewStep = document.getElementById('ocrStepReview');
+      if (captureStep) captureStep.style.display = 'block';
+      if (scanStep) scanStep.style.display = 'none';
+      if (reviewStep) reviewStep.style.display = 'none';
+
+      const camInput = document.getElementById('ocrCameraInput');
+      if (camInput) camInput.value = '';
+      const galInput = document.getElementById('ocrGalleryInput');
+      if (galInput) galInput.value = '';
+      const quickTxt = document.getElementById('ocrQuickTextarea');
+      if (quickTxt) quickTxt.value = '';
+      const prevImg = document.getElementById('ocrPreviewImage');
+      if (prevImg) prevImg.src = '';
+    }
+
+    function handleOcrFileInput(input) {
+      if (!input || !input.files || !input.files[0]) return;
+      const file = input.files[0];
+      if (!file.type.startsWith('image/')) {
+        showToast("Iltimos, rasm faylini tanlang (JPG, PNG, WebP)!", "error");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        ocrSelectedImageSrc = e.target.result;
+        startOcrProcess(ocrSelectedImageSrc);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function startOcrProcess(imageSrc) {
+      const captureStep = document.getElementById('ocrStepCapture');
+      const scanStep = document.getElementById('ocrStepScanning');
+      const reviewStep = document.getElementById('ocrStepReview');
+      const previewImg = document.getElementById('ocrPreviewImage');
+      const progressBar = document.getElementById('ocrProgressBar');
+      const statusBadge = document.getElementById('ocrStatusBadge');
+      const detailsText = document.getElementById('ocrProgressDetails');
+
+      if (captureStep) captureStep.style.display = 'none';
+      if (scanStep) scanStep.style.display = 'block';
+      if (reviewStep) reviewStep.style.display = 'none';
+      if (previewImg) previewImg.src = imageSrc;
+
+      if (progressBar) progressBar.style.width = '15%';
+      if (statusBadge) statusBadge.textContent = '🤖 Rasm tayyorlanmoqda...';
+      if (detailsText) detailsText.textContent = '1/3. Tasvir kontrasti oshirilmoqda va matn maydonlari saralanmoqda...';
+
+      try {
+        // Step 1: Preprocess image on canvas (high-contrast binarization for handwriting & book text)
+        const preprocessedCanvas = await preprocessOcrImage(imageSrc);
+        if (progressBar) progressBar.style.width = '35%';
+        if (statusBadge) statusBadge.textContent = '🔍 AI So\'zlarni O\'qimoqda (OCR)...';
+        if (detailsText) detailsText.textContent = '2/3. Tesseract AI modeli orqali so\'zlar va tarjimalar aniqlanmoqda...';
+
+        let ocrRawText = '';
+        if (window.Tesseract && typeof window.Tesseract.recognize === 'function') {
+          const res = await window.Tesseract.recognize(
+            preprocessedCanvas,
+            'eng',
+            {
+              logger: m => {
+                if (m.status === 'recognizing text' && m.progress) {
+                  const pct = Math.round(35 + m.progress * 45);
+                  if (progressBar) progressBar.style.width = pct + '%';
+                  if (detailsText) detailsText.textContent = `2/3. Matn tahlil qilinmoqda: ${Math.round(m.progress * 100)}%`;
+                }
+              }
+            }
+          );
+          ocrRawText = (res && res.data && res.data.text) ? res.data.text : '';
+        } else {
+          console.warn('Tesseract.js not loaded, using text extraction fallback');
+        }
+
+        if (progressBar) progressBar.style.width = '85%';
+        if (statusBadge) statusBadge.textContent = '✨ So\'zlar Lug\'at Bazasi bilan Solishtirilmoqda...';
+        if (detailsText) detailsText.textContent = '3/3. 4,000+ so\'zlik bazadan tarjimalar va transkripsiyalar biriktirilmoqda...';
+
+        // Parse extracted text to structured vocabulary words
+        const words = parseOcrTextToWords(ocrRawText);
+
+        if (progressBar) progressBar.style.width = '100%';
+
+        if (!words || words.length === 0) {
+          if (scanStep) scanStep.style.display = 'none';
+          if (captureStep) captureStep.style.display = 'block';
+          showToast("Suratdan so'zlar aniqlanmadi. Iltimos, yaxshiroq yorug'likda rasmga oling yoki matnni qo'lda kiriting.", "warning");
+          return;
+        }
+
+        ocrDetectedWords = words;
+        if (scanStep) scanStep.style.display = 'none';
+        if (reviewStep) {
+          reviewStep.style.display = 'flex';
+          renderOcrReviewList();
+        }
+
+        showToast(`🎉 ${words.length} ta so'z muvaffaqiyatli aniqlandi!`, "success");
+        if (typeof AudioSFX !== 'undefined') AudioSFX.play('chime');
+      } catch (err) {
+        console.error('OCR Error:', err);
+        if (scanStep) scanStep.style.display = 'none';
+        if (captureStep) captureStep.style.display = 'block';
+        showToast("Rasmni o'qishda xatolik yuz berdi: " + err.message, "error");
+      }
+    }
+
+    function preprocessOcrImage(imgSrc) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          let w = img.width;
+          let h = img.height;
+          const maxDim = 1600;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+
+          ctx.drawImage(img, 0, 0, w, h);
+
+          try {
+            const imgData = ctx.getImageData(0, 0, w, h);
+            const d = imgData.data;
+            for (let i = 0; i < d.length; i += 4) {
+              const r = d[i], g = d[i + 1], b = d[i + 2];
+              let gray = 0.299 * r + 0.587 * g + 0.114 * b;
+              gray = (gray - 128) * 1.35 + 128;
+              if (gray < 0) gray = 0;
+              if (gray > 255) gray = 255;
+              d[i] = gray;
+              d[i + 1] = gray;
+              d[i + 2] = gray;
+            }
+            ctx.putImageData(imgData, 0, 0);
+          } catch (e) {
+            console.warn('Canvas pixel manipulation restricted:', e);
+          }
+          resolve(canvas);
+        };
+        img.onerror = reject;
+        img.src = imgSrc;
+      });
+    }
+
+    function processQuickOcrText() {
+      const textarea = document.getElementById('ocrQuickTextarea');
+      if (!textarea || !textarea.value.trim()) {
+        showToast("Iltimos, lug'at matnini kiriting!", "warning");
+        return;
+      }
+      const words = parseOcrTextToWords(textarea.value);
+      if (!words || words.length === 0) {
+        showToast("Kiritilgan matndan so'zlar topilmadi!", "warning");
+        return;
+      }
+      ocrDetectedWords = words;
+      document.getElementById('ocrStepCapture').style.display = 'none';
+      const reviewStep = document.getElementById('ocrStepReview');
+      if (reviewStep) {
+        reviewStep.style.display = 'flex';
+        renderOcrReviewList();
+      }
+      showToast(`📝 ${words.length} ta so'z ajratib olindi!`, "success");
+    }
+
+    function parseOcrTextToWords(rawText) {
+      if (!rawText) return [];
+      const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const results = [];
+      const seen = new Set();
+
+      lines.forEach(line => {
+        let clean = line.replace(/^\d+[\.\)\-\:\s]+/, '').trim();
+        if (!clean || clean.length < 2) return;
+
+        let term = '';
+        let uz = '';
+
+        if (clean.includes(' - ') || clean.includes(' – ') || clean.includes(' — ')) {
+          const parts = clean.split(/\s*[-–—]\s*/);
+          term = parts[0].trim();
+          uz = parts.slice(1).join(' - ').trim();
+        } else if (clean.includes(' : ')) {
+          const parts = clean.split(/\s*:\s*/);
+          term = parts[0].trim();
+          uz = parts.slice(1).join(' : ').trim();
+        } else if (clean.includes(' = ')) {
+          const parts = clean.split(/\s*=\s*/);
+          term = parts[0].trim();
+          uz = parts.slice(1).join(' = ').trim();
+        } else {
+          const m = clean.match(/^([a-zA-Z]{2,20})\s+[-:=]?\s*(.+)$/);
+          if (m) {
+            term = m[1].trim();
+            uz = m[2].trim();
+          } else {
+            const wordsInLine = clean.match(/\b[a-zA-Z]{3,22}\b/g);
+            if (wordsInLine && wordsInLine.length <= 4) {
+              wordsInLine.forEach(w => {
+                const lowerW = w.toLowerCase();
+                if (typeof ENGLISH_STOP_WORDS !== 'undefined' && ENGLISH_STOP_WORDS.has(lowerW)) return;
+                const cleanWord = lowerW.replace(/[^a-zA-Z]/g, '');
+                if (cleanWord.length >= 3 && !seen.has(cleanWord)) {
+                  seen.add(cleanWord);
+                  const dict = typeof getDictionaryEntry === 'function' ? getDictionaryEntry(cleanWord) : null;
+                  results.push({
+                    term: cleanWord,
+                    pos: dict ? dict.pos : 'noun',
+                    ipa: dict ? dict.ipa : `/${cleanWord}/`,
+                    uz: (dict && dict.uz) ? dict.uz : (cleanWord.charAt(0).toUpperCase() + cleanWord.slice(1) + " (so'z)"),
+                    en: (dict && dict.en) ? dict.en : `Key vocabulary entry for ${cleanWord}.`,
+                    ex: (dict && dict.ex) ? dict.ex : `Example sentence using ${cleanWord}.`
+                  });
+                }
+              });
+              return;
+            }
+          }
+        }
+
+        const cleanTerm = term.toLowerCase().replace(/[^a-zA-Z\s]/g, '').trim();
+        if (cleanTerm && cleanTerm.length >= 2 && !seen.has(cleanTerm)) {
+          seen.add(cleanTerm);
+          const dict = typeof getDictionaryEntry === 'function' ? getDictionaryEntry(cleanTerm) : null;
+          results.push({
+            term: cleanTerm,
+            pos: dict ? dict.pos : 'noun',
+            ipa: dict ? dict.ipa : `/${cleanTerm}/`,
+            uz: uz || (dict ? dict.uz : (cleanTerm.charAt(0).toUpperCase() + cleanTerm.slice(1) + " (tarjimasi)")),
+            en: (dict && dict.en) ? dict.en : `Meaning and definition of ${cleanTerm}.`,
+            ex: (dict && dict.ex) ? dict.ex : `This is an authentic sentence with ${cleanTerm}.`
+          });
+        }
+      });
+
+      return results;
+    }
+
+    function renderOcrReviewList() {
+      const container = document.getElementById('ocrWordsContainer');
+      const badge = document.getElementById('ocrDetectedCountBadge');
+      const confirmBadge = document.getElementById('ocrConfirmCountBadge');
+      if (!container) return;
+
+      if (badge) badge.textContent = `${ocrDetectedWords.length} ta`;
+      if (confirmBadge) confirmBadge.textContent = `(${ocrDetectedWords.length} ta)`;
+
+      if (ocrDetectedWords.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:30px 10px;color:var(--text-muted)">
+            Ro'yxat bo'sh. Qayta rasmga oling yoki qo'lda so'z qo'shing.
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      ocrDetectedWords.forEach((item, idx) => {
+        html += `
+          <div class="ocr-word-review-card" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:10px 12px;display:flex;align-items:center;gap:10px" data-idx="${idx}">
+            <div style="font-weight:800;color:var(--text-muted);font-size:12px;width:22px">${idx + 1}.</div>
+            <div style="flex:1;min-width:110px">
+              <input type="text" class="form-input ocr-term-input" value="${escapeHtml(item.term || '')}" onchange="updateOcrWordField(${idx}, 'term', this.value)" style="padding:6px 10px;font-weight:800;font-size:14px;width:100%" placeholder="Inglizcha so'z">
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);display:none;width:80px" class="hide-mobile">
+              ${escapeHtml(item.ipa || '')}
+            </div>
+            <div style="flex:1.4;min-width:130px">
+              <input type="text" class="form-input ocr-uz-input" value="${escapeHtml(item.uz || '')}" onchange="updateOcrWordField(${idx}, 'uz', this.value)" style="padding:6px 10px;font-size:13px;width:100%" placeholder="O'zbekcha ma'nosi">
+            </div>
+            <button class="fc-audio-btn" style="width:34px;height:34px;font-size:14px;margin:0;flex-shrink:0" onclick="playSpeech('${escapeHtml(item.term || '')}')" title="Ovoz chiqarish">
+              🔊
+            </button>
+            <button class="icon-action-btn" style="width:34px;height:34px;color:#EF4444;border-color:rgba(239,68,68,0.3);flex-shrink:0" onclick="deleteOcrWordRow(${idx})" title="O'chirish">
+              🗑️
+            </button>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function updateOcrWordField(idx, field, val) {
+      if (!ocrDetectedWords[idx]) return;
+      ocrDetectedWords[idx][field] = val.trim();
+      if (field === 'term') {
+        const dict = typeof getDictionaryEntry === 'function' ? getDictionaryEntry(val.trim()) : null;
+        if (dict) {
+          ocrDetectedWords[idx].ipa = dict.ipa;
+          if (!ocrDetectedWords[idx].uz || ocrDetectedWords[idx].uz.endsWith("(so'z)")) {
+            ocrDetectedWords[idx].uz = dict.uz;
+          }
+          renderOcrReviewList();
+        }
+      }
+    }
+
+    function addOcrEmptyWordRow() {
+      ocrDetectedWords.push({
+        term: '',
+        pos: 'noun',
+        ipa: '',
+        uz: '',
+        en: '',
+        ex: ''
+      });
+      renderOcrReviewList();
+      const container = document.getElementById('ocrWordsContainer');
+      if (container) container.scrollTop = container.scrollHeight;
+    }
+
+    function deleteOcrWordRow(idx) {
+      ocrDetectedWords.splice(idx, 1);
+      renderOcrReviewList();
+    }
+
+    async function confirmOcrAndGenerateFlashcards() {
+      if (!ocrDetectedWords || ocrDetectedWords.length === 0) {
+        showToast("Hech qanday so'z topilmadi!", "warning");
+        return;
+      }
+
+      const validWords = ocrDetectedWords.filter(w => w.term && w.term.trim().length >= 1);
+      if (validWords.length === 0) {
+        showToast("Iltimos, kamida bitta to'g'ri so'z qoldiring!", "warning");
+        return;
+      }
+
+      const unitNameInput = document.getElementById('ocrTargetUnitName');
+      const baseTitle = (unitNameInput && unitNameInput.value.trim()) ? unitNameInput.value.trim() : "Lug'at Daftari";
+
+      const WORDS_PER_UNIT = 20;
+      const totalUnits = Math.ceil(validWords.length / WORDS_PER_UNIT);
+      const customBookId = "book_ocr_" + Date.now();
+
+      const formattedWords = validWords.map((w, idx) => {
+        const unitNum = Math.floor(idx / WORDS_PER_UNIT) + 1;
+        const dict = typeof getDictionaryEntry === 'function' ? getDictionaryEntry(w.term.toLowerCase()) : null;
+        return {
+          id: `ocr_${Date.now()}_${idx + 1}`,
+          term: w.term.toLowerCase().trim(),
+          pos: w.pos || (dict ? dict.pos : 'noun'),
+          ipa: w.ipa || (dict ? dict.ipa : `/${w.term.trim()}/`),
+          uz: w.uz || (dict ? dict.uz : (w.term.trim() + " (so'z)")),
+          en: w.en || (dict ? dict.en : `Authentic definition for ${w.term.trim()}`),
+          ex: w.ex || (dict ? dict.ex : `Example sentence with ${w.term.trim()}.`),
+          book: customBookId,
+          unit: unitNum
+        };
+      });
+
+      let proceduralCover = "";
+      try {
+        const cv = document.createElement('canvas');
+        cv.width = 400; cv.height = 560;
+        const cx = cv.getContext('2d');
+        const gr = cx.createLinearGradient(0, 0, 400, 560);
+        gr.addColorStop(0, '#6366F1');
+        gr.addColorStop(0.5, '#8B5CF6');
+        gr.addColorStop(1, '#EC4899');
+        cx.fillStyle = gr;
+        cx.fillRect(0, 0, 400, 560);
+        cx.fillStyle = 'rgba(255,255,255,0.12)';
+        cx.fillRect(20, 20, 360, 520);
+        cx.font = 'bold 36px "Plus Jakarta Sans", sans-serif';
+        cx.fillStyle = '#FFFFFF';
+        cx.textAlign = 'center';
+        cx.fillText("📸 SKANER", 200, 220);
+        cx.font = '22px "Plus Jakarta Sans", sans-serif';
+        cx.fillText(baseTitle.length > 22 ? baseTitle.slice(0, 22) + "..." : baseTitle, 200, 280);
+        cx.font = '16px "Plus Jakarta Sans", sans-serif';
+        cx.fillStyle = 'rgba(255,255,255,0.85)';
+        cx.fillText(`${formattedWords.length} ta So'z • ${totalUnits} ta Unit`, 200, 330);
+        proceduralCover = cv.toDataURL('image/jpeg', 0.85);
+      } catch (e) {
+        proceduralCover = "./book_covers/book1.jpg";
+      }
+
+      const newDeck = {
+        id: customBookId,
+        title: baseTitle,
+        createdAt: new Date().toLocaleDateString(),
+        words: formattedWords,
+        unitsCount: totalUnits,
+        coverImage: ocrSelectedImageSrc || proceduralCover,
+        info: `${baseTitle} — Skanerlangan ${totalUnits} ta Unit (${formattedWords.length} ta so'z)`
+      };
+
+      if (!appState.customDecks) appState.customDecks = [];
+      appState.customDecks.push(newDeck);
+
+      if (!appState.enabledBooks) appState.enabledBooks = [1, 2, 3, 4, 5, 6];
+      if (!appState.enabledBooks.includes(customBookId)) {
+        appState.enabledBooks.push(customBookId);
+      }
+
+      // Add words to CORE_WORDS_DB
+      formattedWords.forEach(w => {
+        CORE_WORDS_DB.push(w);
+        const p = getWordProgress(w.id);
+        p.status = 'NEW';
+        p.repetitions = 0;
+        p.interval = 1;
+        p.easeFactor = 2.5;
+      });
+
+      // Switch active book and unit to this new deck
+      appState.activeBook = customBookId;
+      appState.activeUnit = 1;
+
+      saveState();
+      try {
+        await saveActiveAccountState(true);
+      } catch (e) {
+        console.warn('Server sync error on OCR save:', e);
+      }
+
+      closePhotoOcrModal();
+
+      if (typeof AudioSFX !== 'undefined') AudioSFX.play('fanfare');
+      triggerConfetti();
+
+      showToast(`🎉 Qoyilmaqom! ${formattedWords.length} ta so'z ${totalUnits} ta Unitga bo'linib, Flashcardlarga qo'shildi!`, "success");
+
+      switchView('study');
+      loadStudyDeck();
+      renderDashboardView();
+    }
+
+    /* ==========================================================================
+       TOUCH SWIPE GESTURES FOR MOBILE FLASHCARDS (Tinder/Anki Style)
+       ========================================================================== */
+    function initFlashcardTouchGestures() {
+      const scene = document.querySelector('.flashcard-3d-scene');
+      const card = document.getElementById('studyFlashcard');
+      if (!scene || !card) return;
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartTime = 0;
+      let isSwiping = false;
+
+      scene.addEventListener('touchstart', (e) => {
+        if (!e.touches || e.touches.length === 0) return;
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchStartTime = Date.now();
+        isSwiping = true;
+        card.style.transition = 'none';
+      }, { passive: true });
+
+      scene.addEventListener('touchmove', (e) => {
+        if (!isSwiping || !e.touches || e.touches.length === 0) return;
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          if (e.cancelable) e.preventDefault();
+          const rotateDeg = deltaX * 0.06;
+          card.style.transform = `translate3d(${deltaX}px, 0, 0) rotate(${rotateDeg}deg)`;
+
+          if (deltaX > 40) {
+            card.style.borderColor = 'rgba(16, 185, 129, 0.8)';
+          } else if (deltaX < -40) {
+            card.style.borderColor = 'rgba(239, 68, 68, 0.8)';
+          } else {
+            card.style.borderColor = '';
+          }
+        }
+      }, { passive: false });
+
+      scene.addEventListener('touchend', (e) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+        card.style.transition = 'transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s';
+        card.style.borderColor = '';
+
+        const touch = e.changedTouches ? e.changedTouches[0] : null;
+        if (!touch) {
+          card.style.transform = '';
+          return;
+        }
+
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        const duration = Date.now() - touchStartTime;
+
+        if (deltaX > 80) {
+          card.style.transform = 'translate3d(120%, 0, 0) rotate(20deg)';
+          setTimeout(() => {
+            card.style.transform = '';
+            submitSm2Rating('good');
+            if (typeof AudioSFX !== 'undefined') AudioSFX.play('chime');
+          }, 180);
+          return;
+        }
+
+        if (deltaX < -80) {
+          card.style.transform = 'translate3d(-120%, 0, 0) rotate(-20deg)';
+          setTimeout(() => {
+            card.style.transform = '';
+            submitSm2Rating('again');
+            if (typeof AudioSFX !== 'undefined') AudioSFX.play('wrong');
+          }, 180);
+          return;
+        }
+
+        if (Math.abs(deltaX) < 15 && Math.abs(deltaY) < 15 && duration < 350) {
+          card.style.transform = '';
+          flipActiveCard();
+          return;
+        }
+
+        card.style.transform = '';
+      }, { passive: true });
+    }
+
     async function bootApp() {
       if (typeof loadAllAccounts === 'function') {
         try {
@@ -16145,6 +17123,7 @@ async function submitModernRegister() {
       loadState();
       autoPopulateMissingCovers();
       setupBookCoverDragAndDrop();
+      initFlashcardTouchGestures();
       if (!appState.theme || !['blue', 'green', 'cream', 'black'].includes(appState.theme)) {
         appState.theme = appState.theme === 'light' ? 'cream' : 'black';
       }
