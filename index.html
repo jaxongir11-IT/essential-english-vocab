@@ -6963,7 +6963,7 @@
           <label class="auth-input-label">Login yoki Foydalanuvchi Nomi:</label>
           <div class="auth-input-wrapper">
             <span class="auth-input-icon">👤</span>
-            <input type="text" id="authLoginUser" class="auth-text-input" placeholder="Masalan: admin yoki malika" autocomplete="username">
+            <input type="text" id="authLoginUser" class="auth-text-input" placeholder="Login yoki foydalanuvchi nomingizni kiriting..." autocomplete="username">
           </div>
         </div>
 
@@ -7000,7 +7000,7 @@
 
         <button type="button" class="auth-admin-quick-btn" onclick="selectAdminLogin()" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(217,119,6,0.18));color:#F59E0B;border:1.5px solid rgba(245,158,11,0.4);box-shadow:0 4px 14px rgba(245,158,11,0.2);font-weight:800;padding:12px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;cursor:pointer;transition:all 0.2s ease">
           <span style="font-size:18px">👑</span>
-          <span>Administrator (Jaxongir Sanginov) Rejimi</span>
+          <span>Administrator Rejimi</span>
         </button>
       </div>
 
@@ -16171,7 +16171,12 @@ fortune - omad, katta boylik
         if (btnLogin) btnLogin.classList.add('active');
         if (btnRegister) btnRegister.classList.remove('active');
         const usrInp = document.getElementById('authLoginUser');
-        if (usrInp) setTimeout(() => usrInp.focus(), 80);
+        const pinInp = document.getElementById('authLoginPin');
+        if (usrInp) {
+          usrInp.value = '';
+          setTimeout(() => usrInp.focus(), 80);
+        }
+        if (pinInp) pinInp.value = '';
       } else if (mode === 'register') {
         if (paneLogin) paneLogin.style.display = 'none';
         if (paneRegister) paneRegister.style.display = 'block';
@@ -17273,12 +17278,14 @@ async function submitModernRegister() {
       } else {
         // Always ask for PIN / password when entering
         openAuthPortal('login');
-        // Pre-fill Jaxongir Sanginov as default login
         setTimeout(() => {
           const userInp = document.getElementById('authLoginUser');
           const pinInp = document.getElementById('authLoginPin');
-          if (userInp && !userInp.value) userInp.value = 'jaxongirsanginov';
-          if (pinInp) pinInp.focus();
+          if (userInp) {
+            userInp.value = '';
+            userInp.focus();
+          }
+          if (pinInp) pinInp.value = '';
         }, 150);
       }
     }
