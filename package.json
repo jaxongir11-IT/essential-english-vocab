@@ -1,4 +1,11 @@
 {
+  "name": "essential-english-vocab",
+  "version": "1.0.0",
+  "description": "Essential English Vocabulary - 4000 Words & Spaced Repetition System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "msedge-tts": "^2.1.1"
   }
