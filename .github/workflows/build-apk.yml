@@ -48,21 +48,22 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main'
         with:
-          tag_name: v1.0.0
-          name: "Essential English Vocab Pro v1.0.0 (Android APK)"
+          tag_name: v1.0.1
+          name: "Essential English Vocab Pro v1.0.1 (Android APK with Custom 3D Logo)"
           body: |
-            ## 📱 Essential English Vocab Mastery — Android APK
+            ## 📱 Essential English Vocab Mastery — Android APK (v1.0.1)
 
-            Ushbu APK faylini Android telefoningizga yuklab olib o'rnatishingiz mumkin.
+            Ushbu APK fayli yangi premium 3D logotip bilan boyitildi. Android telefoningizga yuklab olib o'rnatishingiz mumkin.
 
             ### 🚀 Imkoniyatlar:
+            - 🎨 Yangi zamonaviy 3D Glowing App Logotip (App Icon & Launcher)
             - 4000 Essential English Words barcha kitoblari va Unitlari
             - 📸 AI Kamera & Lug'at Daftari Skaneri (Auto Flashcard & Auto Unit)
             - Spaced Repetition (SM-2) Flashcard tizimi va Tinder-swipe boshqaruvi
             - 🎮 O'yinlar (Match, Spelling, Quiz) va 1v1 Street Fighter Arena duellari
-            - To'liq offline kesh va bulutli sinxronizatsiya
+            - To'liq offline kesh va doimiy saqlanadigan sessiya
 
-            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.0/EssentialEnglishVocab.apk)
+            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.1/EssentialEnglishVocab.apk)
           draft: false
           prerelease: false
           files: dist-apk/EssentialEnglishVocab.apk
