@@ -23,11 +23,16 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.5'
 
       - name: Build Debug APK
         working-directory: android
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
         run: |
           gradle assembleDebug --stacktrace
           mkdir -p ../dist-apk
@@ -47,16 +52,16 @@ jobs:
           name: "Essential English Vocab Pro v1.0.0 (Android APK)"
           body: |
             ## 📱 Essential English Vocab Mastery — Android APK
-            
+
             Ushbu APK faylini Android telefoningizga yuklab olib o'rnatishingiz mumkin.
-            
+
             ### 🚀 Imkoniyatlar:
             - 4000 Essential English Words barcha kitoblari va Unitlari
             - 📸 AI Kamera & Lug'at Daftari Skaneri (Auto Flashcard & Auto Unit)
             - Spaced Repetition (SM-2) Flashcard tizimi va Tinder-swipe boshqaruvi
             - 🎮 O'yinlar (Match, Spelling, Quiz) va 1v1 Street Fighter Arena duellari
             - To'liq offline kesh va bulutli sinxronizatsiya
-            
+
             Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.0/EssentialEnglishVocab.apk)
           draft: false
           prerelease: false
