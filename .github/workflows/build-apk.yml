@@ -48,8 +48,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main'
         with:
-          tag_name: v1.0.4
-          name: "Essential English Vocab Pro v1.0.4 (Offline Bundled Assets & Persistent Auto-Login)"
+          tag_name: v1.0.5
+          name: "Essential English Vocab Pro v1.0.5 (Responsive UI, Harmonized Header, Latest Bundled Assets)"
           body: |
             ## 📱 Essential English Vocab Mastery — Android APK (v1.0.4)
 
@@ -58,7 +58,7 @@ jobs:
             - 🌌 **Asl Cyber Blue Dizayn:** Barcha ekranlar, kartochkalar va tugmalar yuqori kontrastli va yorqin rangda to'liq tiklandi (qorong'uda qora bo'lib qolmaydi).
             - 🎨 **3D Glowing App Icon & Launcher**
 
-            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.4/EssentialEnglishVocab.apk)
+            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.5/EssentialEnglishVocab.apk)
           draft: false
           prerelease: false
           files: dist-apk/EssentialEnglishVocab.apk

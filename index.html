@@ -5767,6 +5767,234 @@
       border-color: var(--border-subtle);
       box-shadow: var(--shadow-sm);
     }
+  
+    /* ==========================================================================
+       HARMONIZED TOP HEADER ACTIONS (Pixel-Perfect Uniform Padding & Heights)
+       ========================================================================== */
+    .header-actions {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      flex-wrap: nowrap !important;
+    }
+
+    .header-actions > * {
+      flex-shrink: 0 !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      box-sizing: border-box !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      white-space: nowrap !important;
+      vertical-align: middle !important;
+      line-height: 1 !important;
+      border-radius: 999px !important;
+    }
+
+    .streak-badge {
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 0 13px !important;
+      border-radius: 999px !important;
+      background: var(--warning-light) !important;
+      color: var(--warning) !important;
+      border: 1px solid rgba(245, 158, 11, 0.35) !important;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.15) !important;
+      box-sizing: border-box !important;
+      white-space: nowrap !important;
+      line-height: 1 !important;
+    }
+
+    .xp-badge {
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 0 13px !important;
+      border-radius: 999px !important;
+      background: var(--primary-light) !important;
+      color: var(--primary) !important;
+      border: 1px solid rgba(99, 102, 241, 0.35) !important;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      box-sizing: border-box !important;
+      white-space: nowrap !important;
+      line-height: 1 !important;
+    }
+
+    .account-header-pill {
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 0 13px 0 5px !important;
+      border-radius: 999px !important;
+      background: var(--bg-surface) !important;
+      border: 1px solid var(--border-strong) !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      font-family: inherit !important;
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      box-sizing: border-box !important;
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+      line-height: 1 !important;
+    }
+    .account-header-pill:hover {
+      border-color: #F59E0B !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25) !important;
+    }
+    .account-avatar-mini {
+      width: 26px !important;
+      height: 26px !important;
+      border-radius: 50% !important;
+      background: linear-gradient(135deg, #F59E0B, #D97706) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 14px !important;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.25) !important;
+      flex-shrink: 0 !important;
+      line-height: 1 !important;
+    }
+    .account-name-mini {
+      font-size: 13px !important;
+      font-weight: 800 !important;
+      color: var(--text-main) !important;
+      max-width: 170px !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      line-height: 1 !important;
+    }
+
+    .btn-action-sm {
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      padding: 0 13px !important;
+      border-radius: 999px !important;
+      font-size: 12.5px !important;
+      font-weight: 700 !important;
+      background: var(--bg-elevated) !important;
+      border: 1px solid var(--border-subtle) !important;
+      transition: all 0.2s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      box-sizing: border-box !important;
+      white-space: nowrap !important;
+      color: var(--text-main) !important;
+      cursor: pointer !important;
+      line-height: 1 !important;
+      flex-shrink: 0 !important;
+    }
+    .btn-action-sm:hover {
+      background: var(--primary-light) !important;
+      color: var(--primary) !important;
+      border-color: var(--primary) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .ocr-top-header-btn {
+      background: linear-gradient(135deg, rgba(99,102,241,0.22), rgba(236,72,153,0.25)) !important;
+      border: 1px solid rgba(236,72,153,0.55) !important;
+      color: #fff !important;
+      font-weight: 800 !important;
+      border-radius: 999px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      padding: 0 13px !important;
+      box-sizing: border-box !important;
+      animation: pulseGlow 2.5s infinite !important;
+    }
+
+    .btn-install-app {
+      background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(5,150,105,0.25)) !important;
+      border: 1px solid rgba(16,185,129,0.5) !important;
+      color: #34D399 !important;
+      font-weight: 800 !important;
+      border-radius: 999px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      padding: 0 13px !important;
+      box-sizing: border-box !important;
+    }
+
+    .btn-voicelab-header {
+      background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(99,102,241,0.2)) !important;
+      border: 1px solid rgba(56,189,248,0.4) !important;
+      color: #38BDF8 !important;
+      font-weight: 800 !important;
+      border-radius: 999px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      padding: 0 13px !important;
+      box-sizing: border-box !important;
+    }
+
+    .icon-action-btn {
+      width: 38px !important;
+      height: 38px !important;
+      min-width: 38px !important;
+      max-width: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      border-radius: 50% !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: var(--bg-elevated) !important;
+      border: 1px solid var(--border-subtle) !important;
+      color: var(--text-secondary) !important;
+      font-size: 16px !important;
+      transition: all 0.2s ease !important;
+      box-sizing: border-box !important;
+      flex-shrink: 0 !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      line-height: 1 !important;
+    }
+    .icon-action-btn:hover {
+      background: var(--primary-light) !important;
+      color: var(--primary) !important;
+      border-color: var(--primary) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .theme-palette-picker {
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      border-radius: 999px !important;
+      background: var(--bg-elevated) !important;
+      border: 1px solid var(--border-subtle) !important;
+      padding: 0 8px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      box-sizing: border-box !important;
+      flex-shrink: 0 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -5930,12 +6158,12 @@
             <span class="ocr-btn-label" style="white-space:nowrap">Rasm Skaner</span>
           </button>
 
-          <button class="btn-action-sm btn-install-app" onclick="triggerAppInstall()" title="Ilovani telefonga o'rnatish (APK / App)" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(5,150,105,0.3));border:1.5px solid rgba(16,185,129,0.5);color:#34D399;font-weight:800">
+          <button class="btn-action-sm btn-install-app" onclick="triggerAppInstall()" title="Ilovani telefonga o'rnatish (APK / App)">
             <span>📲</span>
             <span style="white-space:nowrap">O'rnatish (APK)</span>
           </button>
 
-          <button class="btn-action-sm" onclick="openVoiceLabModal()" title="Istalgan matnni tashlab VoiceLab ovozida tinglang">
+          <button class="btn-action-sm btn-voicelab-header" onclick="openVoiceLabModal()" title="Istalgan matnni tashlab VoiceLab ovozida tinglang">
             <span>🎙️</span>
             <span style="white-space:nowrap">Matn O'qitish</span>
           </button>
@@ -7551,10 +7779,9 @@
           <p style="font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:14px">
             Agar to'g'ridan-to'g'ri <code>.apk</code> o'rnatish paketini yuklab olmoqchi bo'lsangiz, quyidagi tugmani bosing va telefoningizda faylni ochib o'rnating.
           </p>
-          <a href="https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.0/EssentialEnglishVocab.apk" target="_blank" class="btn-hero-ghost" style="width:100%;text-align:center;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4F46E5,#7C3AED);text-decoration:none;border-radius:var(--radius-md);box-shadow:0 6px 20px rgba(79,70,229,0.3)">
+          <a href="https://github.com/jaxongir11-IT/essential-english-vocab/releases/latest/download/EssentialEnglishVocab.apk" target="_blank" class="btn-hero-ghost" style="width:100%;text-align:center;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4F46E5,#7C3AED);text-decoration:none;border-radius:var(--radius-md);box-shadow:0 6px 20px rgba(79,70,229,0.3)">
             <span>📦</span>
-            <span>EssentialEnglishVocab.apk Yuklab Olish</span>
-            <span>(v1.0.0)</span>
+            <span>EssentialEnglishVocab.apk Yuklab Olish (Eng yangi versiya)</span>
           </a>
           <div style="margin-top:10px;font-size:11px;color:var(--text-muted);line-height:1.4">
             <em>Eslatma: Telefonda o'rnatayotganda "Noma'lum manbalarga ruxsat berish" (Allow from this source) ni tasdiqlang.</em>
