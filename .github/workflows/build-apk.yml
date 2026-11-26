@@ -48,17 +48,18 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main'
         with:
-          tag_name: v1.0.5
-          name: "Essential English Vocab Pro v1.0.5 (Responsive UI, Harmonized Header, Latest Bundled Assets)"
+          tag_name: v1.0.6
+          name: "Essential English Vocab Pro v1.0.6 (Full Mobile Responsive UI, Ultra-Clean Layout, Latest Bundled Assets)"
           body: |
-            ## 📱 Essential English Vocab Mastery — Android APK (v1.0.4)
+            ## 📱 Essential English Vocab Mastery — Android APK (v1.0.6)
 
             - 🚀 **100% Ichki Offline Resurslar (Bundled Assets):** Barcha web sahifalar, 3D logotiplar va 4000 ta so'zlar bazasi to'g'ridan-to'g'ri APK ichiga joylandi (`file:///android_asset/`). Endi tashqi Vercel serveriga yoki internet keshiga bog'liq emas, 0 soniyada bir zumda ochiladi!
+            - 📱 **Mobil & Planshet Ekrani Moslashuvi (Responsive UI):** 360px–430px ekranlarda navbar, hikoya, so'z tafsilotlari va kitob muqovasi modallari to'liq moslashtirildi.
             - 👤 **Shaxsiy Akkaunt & Ro'yxatdan O'tish:** Birinchi marta kirganda toza Ro'yxatdan o'tish yoki Kirish oynasi chiqadi. Akkauntga kirilgach, u telefonda doimiy saqlanadi va qaytib hech qachon login so'ramaydi!
             - 🌌 **Asl Cyber Blue Dizayn:** Barcha ekranlar, kartochkalar va tugmalar yuqori kontrastli va yorqin rangda to'liq tiklandi (qorong'uda qora bo'lib qolmaydi).
             - 🎨 **3D Glowing App Icon & Launcher**
 
-            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.5/EssentialEnglishVocab.apk)
+            Yuklab olish: [EssentialEnglishVocab.apk](https://github.com/jaxongir11-IT/essential-english-vocab/releases/download/v1.0.6/EssentialEnglishVocab.apk)
           draft: false
           prerelease: false
           files: dist-apk/EssentialEnglishVocab.apk

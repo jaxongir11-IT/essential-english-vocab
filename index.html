@@ -5995,6 +5995,145 @@
       flex-shrink: 0 !important;
     }
 
+    /* ==========================================================================
+       MOBILE RESPONSIVE (360px–430px) & OVERFLOW-X ELIMINATION SYSTEM
+       ========================================================================== */
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+      box-sizing: border-box !important;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    .desktop-shortcut-hint {
+      display: inline;
+    }
+
+    @media (max-width: 768px) {
+      html, body, .app-wrapper, .main-area {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+      }
+
+      .desktop-shortcut-hint {
+        display: none !important;
+      }
+
+      .top-header {
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+        padding: 0 10px !important;
+        gap: 8px !important;
+        overflow-x: hidden !important;
+      }
+
+      .header-breadcrumb {
+        font-size: 13px !important;
+        max-width: 130px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        gap: 6px !important;
+        min-width: 0 !important;
+      }
+
+      .header-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        min-width: 0 !important;
+        flex-shrink: 1 !important;
+      }
+
+      .header-actions .hide-mobile,
+      .header-actions .xp-badge,
+      .header-actions .ocr-top-header-btn,
+      .header-actions .btn-install-app,
+      .header-actions .btn-voicelab-header,
+      .header-actions .theme-palette-picker {
+        display: none !important;
+      }
+
+      .account-header-pill {
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
+        min-width: 0 !important;
+        max-width: 140px !important;
+        padding: 0 8px 0 4px !important;
+        gap: 6px !important;
+        overflow: hidden !important;
+        flex-shrink: 1 !important;
+      }
+
+      .account-name-mini {
+        min-width: 0 !important;
+        max-width: 76px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        font-size: 12px !important;
+        font-weight: 800 !important;
+      }
+
+      .streak-badge {
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
+        padding: 0 8px !important;
+        font-size: 12px !important;
+        gap: 4px !important;
+      }
+
+      .account-caret-icon {
+        display: none !important;
+      }
+
+      .main-area {
+        margin-left: 0 !important;
+        padding-bottom: calc(env(safe-area-inset-bottom) + 96px) !important;
+      }
+
+      .page-content {
+        padding: 14px 10px 100px 10px !important;
+      }
+
+      .view-screen {
+        padding-bottom: 28px !important;
+      }
+
+      .ocr-hero-card {
+        padding: 18px 16px !important;
+      }
+
+      .ocr-hero-left {
+        align-items: flex-start !important;
+      }
+
+      .ocr-icon-bubble {
+        align-self: flex-start !important;
+      }
+
+      .modal-box {
+        width: 95% !important;
+        max-width: 95vw !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+        padding: 20px 16px !important;
+        box-sizing: border-box !important;
+      }
+
+      .file-dropzone {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -6127,7 +6266,6 @@
           <button class="menu-burger" onclick="toggleSidebarMenu()">☰</button>
           <div class="header-breadcrumb">
             <span>Essential 4000</span>
-            <span>/</span>
             <span class="active" id="currentViewBreadcrumb">Dashboard</span>
           </div>
         </div>
@@ -6137,11 +6275,11 @@
             <span class="fire-anim">🔥</span>
             <span><strong id="streakDisplay">1</strong> kun</span>
           </div>
-          <div class="xp-badge" title="To'plangan tajriba ballaringiz">
+          <div class="xp-badge hide-mobile" title="To'plangan tajriba ballaringiz">
             <span>⚡</span>
             <span><strong id="xpDisplay">0</strong> XP</span>
           </div>
-          <div class="xp-badge" style="background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(217,119,6,0.18));border:1px solid rgba(245,158,11,0.35);color:var(--text-main)" title="Sizning darajangiz (Maksimal: 100-daraja)">
+          <div class="xp-badge hide-mobile" style="background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(217,119,6,0.18));border:1px solid rgba(245,158,11,0.35);color:var(--text-main)" title="Sizning darajangiz (Maksimal: 100-daraja)">
             <span>👑</span>
             <span style="white-space:nowrap">Lvl <strong id="headerUserLvl" style="color:#F59E0B">1/100</strong></span>
           </div>
@@ -6153,22 +6291,22 @@
             <span class="account-caret-icon">▼</span>
           </button>
 
-          <button class="btn-action-sm ocr-top-header-btn" onclick="openPhotoOcrModal()" title="Lug'at daftari yoki kitob sahifasini rasmga olib flashcard qilish">
+          <button class="btn-action-sm ocr-top-header-btn hide-mobile" onclick="openPhotoOcrModal()" title="Lug'at daftari yoki kitob sahifasini rasmga olib flashcard qilish">
             <span>📸</span>
             <span class="ocr-btn-label" style="white-space:nowrap">Rasm Skaner</span>
           </button>
 
-          <button class="btn-action-sm btn-install-app" onclick="triggerAppInstall()" title="Ilovani telefonga o'rnatish (APK / App)">
+          <button class="btn-action-sm btn-install-app hide-mobile" onclick="triggerAppInstall()" title="Ilovani telefonga o'rnatish (APK / App)">
             <span>📲</span>
             <span style="white-space:nowrap">O'rnatish (APK)</span>
           </button>
 
-          <button class="btn-action-sm btn-voicelab-header" onclick="openVoiceLabModal()" title="Istalgan matnni tashlab VoiceLab ovozida tinglang">
+          <button class="btn-action-sm btn-voicelab-header hide-mobile" onclick="openVoiceLabModal()" title="Istalgan matnni tashlab VoiceLab ovozida tinglang">
             <span>🎙️</span>
             <span style="white-space:nowrap">Matn O'qitish</span>
           </button>
           <!-- Settings & Admin Panel Button -->
-          <button class="icon-action-btn" onclick="openSettingsModal()" title="Sozlamalar & Administrator Paneli" style="position:relative">
+          <button class="icon-action-btn" onclick="openSettingsModal()" title="Sozlamalar & Administrator Paneli" style="position:relative;display:inline-flex;align-items:center;justify-content:center">
             <span>⚙️</span>
             <span id="headerSettingsDot" style="position:absolute;top:3px;right:3px;width:7px;height:7px;background:#F59E0B;border-radius:50%;display:none"></span>
           </button>
@@ -6180,8 +6318,8 @@
             <button class="theme-dot-btn theme-dot-cream" onclick="setAppTheme('cream')" title="🍦 Qaymoq rang fon (Warm Cream)"></button>
             <button class="theme-dot-btn theme-dot-black" onclick="setAppTheme('black')" title="🌑 Qora fon (Pure Black)"></button>
           </div>
-          <button class="icon-action-btn" onclick="toggleThemeMode()" title="Keyingi fonga o'tish (Ko'k / Yashil / Qaymoq / Qora)">
-            <span id="themeToggleIcon">🎨</span>
+          <button class="icon-action-btn" onclick="toggleThemeMode()" title="Keyingi fonga o'tish (Ko'k / Yashil / Qaymoq / Qora)" style="display:inline-flex;align-items:center;justify-content:center">
+            <svg id="themeToggleIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
           </button>
         </div>
       </header>
@@ -6200,17 +6338,21 @@
             <p style="font-size:15px;opacity:0.92;max-width:640px;margin-bottom:24px;line-height:1.6">
               "4000 Essential English Words" kitoblari bo'yicha so'zlarni o'yin o'ynab, boshqalar bilan 1v1 raqobatlashib, xotirada mustahkam qoladigan tizim orqali o'rganing.
             </p>
-            <div style="display:flex;gap:12px;flex-wrap:wrap">
-              <button class="btn-hero" onclick="startDailySession()">🚀 Mashg'ulotni Boshlash</button>
-              <button class="btn-hero-ghost" style="color:#fff" onclick="switchView('games')">🎮 O'yinlar</button>
-              <button class="btn-hero-ghost" style="color:#fff" onclick="switchView('arena')">⚔️ 1v1 Duelga Kirish</button>
+            <div class="hero-actions-container" style="display:flex;flex-direction:column;gap:12px;width:100%">
+              <button class="btn-hero" onclick="startDailySession()" style="width:100%;justify-content:center">🚀 Mashg'ulotni Boshlash</button>
+              <div class="hero-sub-actions" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%">
+                <button class="btn-hero-ghost" style="color:#fff;width:100%;justify-content:center" onclick="switchView('games')">🎮 O'yinlar</button>
+                <button class="btn-hero-ghost" style="color:#fff;width:100%;justify-content:center" onclick="switchView('arena')">⚔️ 1v1 Duelga Kirish</button>
+              </div>
             </div>
           </div>
 
           <!-- AI Photo & Notebook Vocabulary Scanner Hero Card -->
           <div class="ocr-hero-card" onclick="openPhotoOcrModal()">
-            <div class="ocr-hero-left">
-              <div class="ocr-icon-bubble">📸</div>
+            <div class="ocr-hero-left" style="align-items:flex-start">
+              <div class="ocr-icon-bubble" style="align-self:flex-start">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              </div>
               <div>
                 <div class="ocr-badge">AI RASM VA LUG'AT DAFTAR SKANERI</div>
                 <h3 class="ocr-title">Lug'at daftar yoki kitobingizni rasmga oling</h3>
@@ -6305,7 +6447,7 @@
               </div>
               <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--text-muted);margin-top:4px">
                 <span id="studyCardCounter">1 / 20</span>
-                <span>Space: Ochish • 1-4: Baholash</span>
+                <span class="desktop-shortcut-hint">Space: Ochish • 1-4: Baholash</span>
               </div>
             </div>
 
@@ -6323,8 +6465,10 @@
                   <div id="fcFrontImageWrap" style="display:none;margin:8px 0;text-align:center">
                     <img id="fcFrontImage" src="" alt="Rasm" style="max-height:120px;max-width:100%;border-radius:12px;border:1.5px solid var(--border-subtle);object-fit:cover;box-shadow:0 4px 14px rgba(0,0,0,0.3)">
                   </div>
-                  <button class="fc-audio-btn" onclick="event.stopPropagation(); playPronunciation()" title="Talaffuzni eshitish">🔊</button>
-                  <div style="font-size:12px;color:var(--text-muted)">Ochish uchun bosing yoki <strong>Space</strong></div>
+                  <button class="fc-audio-btn" onclick="event.stopPropagation(); playPronunciation()" title="Talaffuzni eshitish" style="display:inline-flex;align-items:center;justify-content:center">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                  </button>
+                  <div style="font-size:12px;color:var(--text-muted)">Ochish uchun bosing<span class="desktop-shortcut-hint"> yoki <strong>Space</strong></span></div>
                 </div>
 
                 <!-- Back -->
@@ -6595,70 +6739,81 @@
           <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:36px;max-width:920px;margin:0 auto;box-shadow:var(--shadow-md)">
             
             <!-- Top Navigation & Unit Picker -->
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding-bottom:18px;margin-bottom:18px;flex-wrap:wrap;gap:14px">
-              <div style="display:flex;align-items:center;gap:10px">
-                <button class="btn-action-sm" onclick="changeStoryUnitDelta(-1)" title="Oldingi Unit">◀ Oldingi</button>
-                <select id="storyBookSelect" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:800;color:var(--text-main)" onchange="onStoryBookChange(this.value)">
-                  <option value="1">Book 1 (Starter)</option>
-                  <option value="2">Book 2 (Elementary)</option>
-                  <option value="3">Book 3 (Pre-Int)</option>
-                  <option value="4">Book 4 (Intermediate)</option>
-                  <option value="5">Book 5 (Upper-Int)</option>
-                  <option value="6">Book 6 (Advanced)</option>
-                </select>
-                <select id="storyUnitSelect" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:800;color:var(--text-main);max-width:260px" onchange="onStoryUnitChange(this.value)"></select>
-                <button class="btn-action-sm" onclick="changeStoryUnitDelta(1)" title="Keyingi Unit">Keyingi ▶</button>
+            <div style="border-bottom:1px solid var(--border-subtle);padding-bottom:14px;margin-bottom:18px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+                <div style="display:flex;align-items:center;gap:6px;flex:1 1 280px;min-width:0;max-width:100%">
+                  <button class="btn-action-sm" onclick="changeStoryUnitDelta(-1)" title="Oldingi Unit" style="flex-shrink:0;padding:0 10px">◀ Oldingi</button>
+                  <select id="storyBookSelect" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 10px;font-size:12.5px;font-weight:800;color:var(--text-main);flex:1;min-width:0;text-overflow:ellipsis" onchange="onStoryBookChange(this.value)">
+                    <option value="1">Book 1: Starter (CEFR A1–A2)</option>
+                    <option value="2">Book 2: Elementary (CEFR A2)</option>
+                    <option value="3">Book 3: Pre-Intermediate (CEFR B1)</option>
+                    <option value="4">Book 4: Intermediate (CEFR B1–B2)</option>
+                    <option value="5">Book 5: Upper-Intermediate (CEFR B2)</option>
+                    <option value="6">Book 6: Advanced (CEFR C1)</option>
+                  </select>
+                  <button class="btn-action-sm" onclick="changeStoryUnitDelta(1)" title="Keyingi Unit" style="flex-shrink:0;padding:0 10px">Keyingi ▶</button>
+                </div>
+                <div style="flex:1 1 100%;min-width:0;margin-top:4px">
+                  <select id="storyUnitSelect" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:800;color:var(--text-main);width:100%;min-width:0;text-overflow:ellipsis" onchange="onStoryUnitChange(this.value)"></select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Format & Language View Switchers -->
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+              <div style="display:inline-flex;background:var(--bg-elevated);padding:4px;border-radius:10px;border:1px solid var(--border-subtle);gap:4px">
+                <button class="story-format-tab-btn active" id="btnStoryFormatProse" onclick="setStoryFormat('prose')">📜 Butun Hikoya</button>
+                <button class="story-format-tab-btn" id="btnStoryFormatCards" onclick="setStoryFormat('cards')">📑 Gapma-gap</button>
               </div>
 
-              <!-- Format & Language View Switchers -->
-              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-                <div style="display:inline-flex;background:var(--bg-elevated);padding:4px;border-radius:10px;border:1px solid var(--border-subtle);gap:4px">
-                  <button class="story-format-tab-btn active" id="btnStoryFormatProse" onclick="setStoryFormat('prose')">📜 Butun Hikoya</button>
-                  <button class="story-format-tab-btn" id="btnStoryFormatCards" onclick="setStoryFormat('cards')">📑 Gapma-gap</button>
-                </div>
-
-                <div style="display:inline-flex;background:var(--bg-elevated);padding:4px;border-radius:10px;border:1px solid var(--border-subtle);gap:4px">
-                  <button class="story-tab-pill active" id="btnStoryModeParallel" onclick="setStoryMode('parallel')">Parallel</button>
-                  <button class="story-tab-pill" id="btnStoryModeEn" onclick="setStoryMode('en')">Inglizcha</button>
-                  <button class="story-tab-pill" id="btnStoryModeUz" onclick="setStoryMode('uz')">O'zbekcha</button>
-                </div>
+              <div style="display:inline-flex;background:var(--bg-elevated);padding:4px;border-radius:10px;border:1px solid var(--border-subtle);gap:4px">
+                <button class="story-tab-pill active" id="btnStoryModeParallel" onclick="setStoryMode('parallel')">Parallel</button>
+                <button class="story-tab-pill" id="btnStoryModeEn" onclick="setStoryMode('en')">Inglizcha</button>
+                <button class="story-tab-pill" id="btnStoryModeUz" onclick="setStoryMode('uz')">O'zbekcha</button>
               </div>
             </div>
 
             <!-- Title & Audio Controls Header -->
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;flex-wrap:wrap;gap:16px">
-              <div>
+              <div style="max-width:100%;min-width:0">
                 <span style="font-size:12px;font-weight:800;color:var(--primary);text-transform:uppercase" id="storyUnitLabel">Book 1 • Unit 1 Story</span>
-                <h2 style="font-size:26px;font-weight:900;margin-top:2px" id="storyHeadingTitle">The Lion and the Rabbit</h2>
-                <div style="font-size:16px;font-weight:800;color:var(--accent);margin-top:4px" id="storyHeadingTitleUz">Sher va Quyon (To'liq O'zbekcha Matn)</div>
+                <h2 style="font-size:26px;font-weight:900;margin-top:2px;word-break:break-word" id="storyHeadingTitle">The Lion and the Rabbit</h2>
+                <div style="font-size:16px;font-weight:800;color:var(--accent);margin-top:4px;word-break:break-word" id="storyHeadingTitleUz">Sher va Quyon (O'zbekcha Tarjima)</div>
               </div>
 
               <!-- Main Audio Action Buttons -->
               <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
                 <!-- English Voice Button -->
-                <button class="btn-hero" id="storyEnAudioBtn" onclick="toggleStorySpeech('en')" style="background:linear-gradient(135deg,#6366F1,#EC4899);box-shadow:0 4px 16px rgba(99,102,241,0.35)">
-                  <span>🎙️ ▶ VoiceLab Inglizcha Eshitish</span>
+                <button class="btn-hero" id="storyEnAudioBtn" onclick="toggleStorySpeech('en')" style="background:linear-gradient(135deg,#6366F1,#EC4899);box-shadow:0 4px 16px rgba(99,102,241,0.35);display:inline-flex;align-items:center;gap:8px">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                  <span>Inglizcha Eshitish</span>
                 </button>
 
                 <!-- Uzbek Voice Button -->
-                <button class="btn-hero" id="storyUzAudioBtn" onclick="toggleStorySpeech('uz')" style="background:linear-gradient(135deg,#6366F1,#EC4899);box-shadow:0 4px 16px rgba(99,102,241,0.35)">
-                  <span>🎙️ ▶ VoiceLab O'zbekcha Eshitish</span>
+                <button class="btn-hero" id="storyUzAudioBtn" onclick="toggleStorySpeech('uz')" style="background:linear-gradient(135deg,#6366F1,#EC4899);box-shadow:0 4px 16px rgba(99,102,241,0.35);display:inline-flex;align-items:center;gap:8px">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                  <span>O'zbekcha Eshitish</span>
                 </button>
 
                 <!-- Stop Button -->
-                <button class="btn-hero-ghost" id="storyStopAudioBtn" onclick="stopStorySpeech()" style="display:none;color:#EF4444;border-color:rgba(239,68,68,0.3)">
-                  <span>⏹️ To'xtatish</span>
+                <button class="btn-hero-ghost" id="storyStopAudioBtn" onclick="stopStorySpeech()" style="display:none;color:#EF4444;border-color:rgba(239,68,68,0.3);align-items:center;gap:6px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                  <span>To'xtatish</span>
                 </button>
 
-                <!-- Speed Control -->
-                <select id="storySpeedSelect" onchange="changeStorySpeed(this.value)" style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:8px;padding:9px 12px;font-size:12px;font-weight:800;color:var(--text-main);cursor:pointer" title="O'qish tezligi">
-                  <option value="0.75">0.75x</option>
-                  <option value="0.85">0.85x</option>
-                  <option value="1.0" selected>1.0x</option>
-                  <option value="1.15">1.15x</option>
-                  <option value="1.25">1.25x</option>
-                  <option value="1.5">1.5x</option>
-                </select>
+                <!-- Speed Control with Label -->
+                <div style="display:inline-flex;align-items:center;gap:6px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:8px;padding:4px 10px">
+                  <span style="font-size:11px;font-weight:800;color:var(--text-muted);white-space:nowrap">Tezlik:</span>
+                  <select id="storySpeedSelect" onchange="changeStorySpeed(this.value)" style="background:transparent;border:none;outline:none;font-size:12px;font-weight:800;color:var(--text-main);cursor:pointer;padding:4px" title="O'qish tezligi">
+                    <option value="0.75">0.75x</option>
+                    <option value="0.85">0.85x</option>
+                    <option value="1" selected>1.0x (Normal)</option>
+                    <option value="1.0">1.0x (Normal)</option>
+                    <option value="1.15">1.15x</option>
+                    <option value="1.25">1.25x</option>
+                    <option value="1.5">1.5x</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -6985,17 +7140,19 @@
 
   <!-- Word Detail Modal -->
   <div class="modal-overlay" id="wordDetailModal" onclick="closeWordModal(event)">
-    <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-box" onclick="event.stopPropagation()" style="position:relative;padding-top:22px">
       <button class="modal-close-x" onclick="closeWordModal()" title="Yopish (Esc)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-        <span style="padding:2px 8px;background:var(--primary-light);color:var(--primary);border-radius:var(--radius-full);font-size:11px;font-weight:800" id="modalPos">noun</span>
-        <span style="font-size:12px;color:var(--text-muted)" id="modalUnit">Book 1 • Unit 1</span>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-right:48px">
+        <span style="padding:3px 10px;background:var(--primary-light);color:var(--primary);border-radius:var(--radius-full);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px" id="modalPos">ADJECTIVE</span>
+        <span style="font-size:12px;color:var(--text-muted);font-weight:700" id="modalUnit">Book 1 • Unit 1</span>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <div style="font-size:32px;font-weight:900" id="modalTerm">afraid</div>
-        <button class="fc-audio-btn" style="width:42px;height:42px;font-size:18px;margin:0" onclick="playModalAudio()">🔊</button>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;padding-right:48px;flex-wrap:wrap">
+        <div style="font-size:32px;font-weight:900;color:var(--text-main);line-height:1.2" id="modalTerm">afraid</div>
+        <button class="fc-audio-btn" style="width:38px;height:38px;min-width:38px;min-height:38px;margin:0;display:inline-flex;align-items:center;justify-content:center" onclick="playModalAudio()" title="Talaffuzni eshitish">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        </button>
       </div>
-      <div style="font-family:var(--font-mono);color:var(--text-muted);margin-bottom:16px" id="modalIpa">/əˈfreɪd/</div>
+      <div style="font-family:var(--font-mono);font-size:15px;color:var(--text-muted);margin-bottom:16px" id="modalIpa">/əˈfreɪd/</div>
       <div id="modalImageWrap" style="display:none;margin-bottom:14px;text-align:center">
         <img id="modalImage" src="" alt="So'z surati" style="max-height:160px;max-width:100%;border-radius:var(--radius-md);border:1.5px solid var(--border-subtle);object-fit:cover;box-shadow:0 4px 14px rgba(0,0,0,0.3)">
       </div>
@@ -7087,14 +7244,16 @@
 
     <!-- Modal: Book Cover Customizer (Search, Upload, URL, Canvas) -->
   <div class="modal-overlay" id="bookCoverModal" onclick="closeBookCoverModal(event)">
-    <div class="modal-box" style="max-width:560px;width:95%" onclick="event.stopPropagation()">
+    <div class="modal-box" style="max-width:560px;width:95%;max-height:90vh;overflow-y:auto;box-sizing:border-box;padding:20px;position:relative" onclick="event.stopPropagation()">
       <!-- Header -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;border-bottom:1px solid var(--border-subtle);padding-bottom:12px">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🎨</div>
-          <div>
-            <h3 style="font-size:18px;font-weight:900;color:var(--text-main);margin:0" id="coverModalTitle">Kitob Muqovasini O'rnatish</h3>
-            <p style="font-size:11px;color:var(--text-muted);margin:2px 0 0" id="coverModalSubtitle">Kitobingizga haqiqiy kitob do'koni darajasidagi muqova tanlang</p>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;border-bottom:1px solid var(--border-subtle);padding-bottom:12px;padding-right:48px;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+          <div style="width:36px;height:36px;min-width:36px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
+          </div>
+          <div style="min-width:0;flex:1">
+            <h3 style="font-size:17px;font-weight:900;color:var(--text-main);margin:0;line-height:1.3;word-break:break-word" id="coverModalTitle">Kitob Muqovasini O'rnatish</h3>
+            <p style="font-size:11px;color:var(--text-muted);margin:2px 0 0;line-height:1.4" id="coverModalSubtitle">Kitobingizga haqiqiy kitob do'koni darajasidagi muqova tanlang</p>
           </div>
         </div>
         <button class="modal-close-btn" onclick="closeBookCoverModalDirect()" title="Yopish (Esc)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
@@ -7102,8 +7261,8 @@
 
       <!-- Active Book Preview Card -->
       <div style="display:flex;align-items:center;gap:18px;padding:16px;background:var(--bg-elevated);border-radius:var(--radius-md);margin-bottom:20px;border:1px solid var(--border-subtle)">
-        <div class="book-cover-wrapper" style="width:78px;height:112px;min-width:78px;box-shadow:var(--shadow-md)">
-          <img id="coverModalPreviewImg" src="" class="book-cover-img" alt="Preview">
+        <div class="book-cover-wrapper" style="width:78px;height:112px;min-width:78px;box-shadow:var(--shadow-md);position:relative;overflow:hidden;border-radius:6px 9px 9px 6px">
+          <img id="coverModalPreviewImg" src="" class="book-cover-img" alt="Preview" style="width:100%;height:100%;object-fit:cover;display:block">
           <div class="book-cover-spine"></div>
           <div class="book-cover-pages"></div>
           <div class="book-cover-shine"></div>
@@ -7115,21 +7274,38 @@
         </div>
       </div>
 
-      <!-- Tabs selector -->
-      <div style="display:flex;gap:8px;margin-bottom:16px;border-bottom:1px solid var(--border-subtle);padding-bottom:8px;flex-wrap:wrap">
-        <button class="cover-tab-btn active" id="coverTabBtnUpload" onclick="setCoverModalTab('upload')">📁 Kompyuterdan Yuklash</button>
-        <button class="cover-tab-btn" id="coverTabBtnUrl" onclick="setCoverModalTab('url')">🌐 Rasm Havolasi (URL)</button>
-        <button class="cover-tab-btn" id="coverTabBtnSearch" onclick="setCoverModalTab('search')">🔍 Internetdan Topish</button>
-        <button class="cover-tab-btn" id="coverTabBtnCanvas" onclick="setCoverModalTab('canvas')">✨ 3D Generatsiya</button>
+      <!-- Tabs selector: 2x2 grid -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px;border-bottom:1px solid var(--border-subtle);padding-bottom:12px">
+        <button class="cover-tab-btn active" id="coverTabBtnUpload" onclick="setCoverModalTab('upload')" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 8px;font-size:12px;font-weight:800;border-radius:10px;width:100%">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg>
+          <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Kompyuterdan</span>
+        </button>
+        <button class="cover-tab-btn" id="coverTabBtnUrl" onclick="setCoverModalTab('url')" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 8px;font-size:12px;font-weight:800;border-radius:10px;width:100%">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Rasm Havolasi</span>
+        </button>
+        <button class="cover-tab-btn" id="coverTabBtnSearch" onclick="setCoverModalTab('search')" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 8px;font-size:12px;font-weight:800;border-radius:10px;width:100%">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Internetdan</span>
+        </button>
+        <button class="cover-tab-btn" id="coverTabBtnCanvas" onclick="setCoverModalTab('canvas')" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 8px;font-size:12px;font-weight:800;border-radius:10px;width:100%">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+          <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">3D Generatsiya</span>
+        </button>
       </div>
 
       <!-- Tab 1: File Upload (DEFAULT ACTIVE) -->
       <div id="coverTabContentUpload" style="display:block">
-        <div class="file-dropzone" style="padding:28px 16px;border:2px dashed var(--primary);background:rgba(99,102,241,0.04);border-radius:var(--radius-lg);cursor:pointer;text-align:center" onclick="document.getElementById('coverDirectFileInput').click()">
-          <div style="font-size:48px;margin-bottom:8px">🖼️</div>
-          <h4 style="font-size:16px;font-weight:900;margin-bottom:4px;color:var(--text-main)">Kompyuter yoki telefoningizdan rasm tanlang</h4>
+        <div class="file-dropzone" style="padding:22px 14px;border:2px dashed var(--primary);background:rgba(99,102,241,0.04);border-radius:var(--radius-lg);cursor:pointer;text-align:center;box-sizing:border-box" onclick="document.getElementById('coverDirectFileInput').click()">
+          <div style="width:48px;height:48px;margin:0 auto 10px;border-radius:14px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--primary)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+          </div>
+          <h4 style="font-size:15px;font-weight:900;margin-bottom:4px;color:var(--text-main)">Kompyuter yoki telefoningizdan rasm tanlang</h4>
           <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Istalgan rasm (.jpg, .png, .webp) faylini bosing yoki bu yerga tashlang</p>
-          <button type="button" class="btn-hero" style="font-size:13px;padding:10px 24px;margin:0 auto">📁 Rasm Faylini Tanlash</button>
+          <button type="button" class="btn-hero" style="font-size:13px;padding:9px 20px;margin:0 auto;display:inline-flex;align-items:center;gap:6px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg>
+            <span>Rasm Faylini Tanlash</span>
+          </button>
           <input type="file" id="coverDirectFileInput" accept="image/*" style="display:none" onchange="handleCoverDirectFileUpload(event)">
         </div>
       </div>
@@ -7781,7 +7957,7 @@
           </p>
           <a href="https://github.com/jaxongir11-IT/essential-english-vocab/releases/latest/download/EssentialEnglishVocab.apk" target="_blank" class="btn-hero-ghost" style="width:100%;text-align:center;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4F46E5,#7C3AED);text-decoration:none;border-radius:var(--radius-md);box-shadow:0 6px 20px rgba(79,70,229,0.3)">
             <span>📦</span>
-            <span>EssentialEnglishVocab.apk Yuklab Olish (Eng yangi versiya)</span>
+            <span>EssentialEnglishVocab.apk Yuklab Olish (Eng yangi versiya v1.0.6)</span>
           </a>
           <div style="margin-top:10px;font-size:11px;color:var(--text-muted);line-height:1.4">
             <em>Eslatma: Telefonda o'rnatayotganda "Noma'lum manbalarga ruxsat berish" (Allow from this source) ni tasdiqlang.</em>
@@ -11249,7 +11425,7 @@
     let activeModalWord = null;
     function openWordModal(w) {
       activeModalWord = w;
-      document.getElementById('modalPos').textContent = w.pos || 'word';
+      document.getElementById('modalPos').textContent = String(w.pos || 'word').toUpperCase();
       document.getElementById('modalUnit').textContent = `Book ${w.book} • Unit ${w.unit}`;
       document.getElementById('modalTerm').textContent = w.term;
       document.getElementById('modalIpa').textContent = w.ipa || '';
@@ -15469,6 +15645,15 @@ fortune - omad, katta boylik
       }
     }
 
+    const UNIT_TOPICS_UZ = {
+      1: ["Sher va Quyon", "Laboratoriya", "Hisobot", "Itning Qo'ng'irog'i", "Shoqol va Quyosh Farzandi", "Mehribon Arvoh", "Eng Yaxshi Shahzoda", "Quyosh va Oy Qanday Yaratilgan", "Dengiz Yulduzi", "Birinchi Tovus", "Malika Roza va Maxluq", "Bola va Uning Chanasi", "Kichik Qirol", "Sehrli Kompyuter", "Katta Poyga", "Adamslar Oilasi", "Kumush Kalit", "O'rmondagi Daraxt", "Shimoliy Shamol va Quyosh", "G'or", "Ulkan Kema", "Jasur Sayohatchi", "Eski Tosh Uy", "Oltin Qidiruvchi", "Yosh Haykaltarosh", "Qishloq Shifokori", "Sahro Sayri", "Tog' Cho'qqisiga Sayohat", "Qasr Sir-Asrori", "Yangi Dunyo"],
+      2: ["Qadimgi Qishloq Afsonasi", "Ilmiy Ko'rgazma", "Yo'qolgan Kuchuk", "Fransiyaga Sayohat", "Jasur O't O'chiruvchi", "Shahar Festivali", "Tog' Yo'lboshchisi", "Okean Sho'ng'ishi", "Fermer Hayoti", "Buyuk Ixtiro", "O'rmon Oromgohi", "Qishki Bo'ron", "Kutubxona Sirlari", "Yosh Rassom", "Velopoyga", "Oila Piknigi", "Daryo Bo'ylab Sayohat", "Tosh O'ymakori", "Tungi Qo'ng'iroq", "Sahro Karvoni", "Soat Minorasi", "Oroldagi Qutqaruv", "Musiqa Ustasi", "Keksa Dengizchi", "Qasr Qo'riqchisi", "Maxfiy Yo'lak", "Kuzgi Hosil", "Koinot Ko'rgazmasi", "Ko'prik Quruvchilar", "Olimpiada Orzusi"],
+      3: ["Saxiy Temirchi", "Halokatga Uchragan Kema", "Sayohatchi Olim", "Qadimiy Tanga", "Qirol Maslahatchisi", "Buyuk Ipak Yo'li Savdogari", "Tibbiy Mo'jiza", "Shimol Yog'dusi", "Yo'qolgan Sivilizatsiya", "Usta Novvoy", "O'rmon Qo'riqchisi", "Astronom Qaydlari", "Tungi O'g'irlik", "Orol Mustamlakasi", "Buyuk Ko'rgazma", "Telegraf Simi", "Dengiz Tubidagi Marvarid", "Temir Yo'l Sayri", "Qishki Quyosh Turishi", "Sahro Vohasi", "Eski Tegirmon", "Arktika Tadqiqotchisi", "Bosmaxona Stanogi", "Savdo Flotiliyasi", "Tog' Dovoni", "Oltin Kompas", "Chegara Shaharchasi", "Shisha Ustasi", "Daryo To'g'oni", "Yakuniy Bitim"],
+      4: ["Jannat Ziravorlari", "Quyosh Tutilishi", "Chuqur Cho'kma", "Mayyalar Taqsimoti", "Yomg'irli O'rmonlar Ekologiyasi", "Muzlik Sayri", "Qadimiy Shifobaxsh O't", "Vulqon Kuzatuvchisi", "Yo'qolgan Ekspeditsiya", "Marjon To'sig'i", "Baland Tekisliklar", "Kanyon Aks-sadosi", "Geotermal Buloq", "Alp O'simliklari", "G'or Rasmlari", "Musson Fasli", "Sahro Saroblari", "Daryo Deltasi", "Okean Tubi", "Tektonik Yoriq", "Savanna Migratsiyasi", "Qadimiy Qadamjo", "Shamol Turbinalari", "O'rmon Qoplami", "Arktika Tundrasi", "Orol Vulqoni", "Yerosti Daryosi", "Meteorit Krateri", "Sohil Rifi", "Sayyora Orbitasi"],
+      5: ["Xarakter Sinovi", "Axloqiy Dilemma", "Huquqiy Bahs", "Diplomatik Missiya", "Korporativ Birlashuv", "Psixologik Sinov", "Sotsiologik So'rov", "Iqtisodiy Inqiroz", "Falsafiy Bahs", "Tibbiy Kengash", "Oliy Sud Apellyatsiyasi", "Konstitutsiyaviy Munozara", "Jurnalistik Tekshiruv", "Akademik Dissertatsiya", "Siyosiy Koalitsiya", "Ekologik Sammit", "Shahar Qaytadan Loyihalanishi", "Tarixiy Merosni Asrash", "Ilmiy Taqlid va Ko'rik", "Madaniy Uyg'onish", "Mehnat Muzokaralari", "Koinot Yashash Muhiti", "Bioetika Hay'ati", "Arxeologik Munozara", "Dengiz Tribunali", "Fuqarolik Huquqlari Marshi", "Energetik O'tish", "Global Valyuta Kelishuvi", "Gumanitar Yo'lak", "Paradigma O'zgarishi"],
+      6: ["Yo'qolgan Dengizchi", "Koinot Navigatsiyasi", "Kvant Paradoksi", "Tilning Kelib Chiqishi", "Falsafiy Risola", "Yulduz Tumanligi", "Kognitiv Arxitektura", "Genetik Kod", "Diplomatik Protokol", "Evolyutsion Davr", "Arxitektura Uyg'onishi", "Uzoq Koinot Zondi", "Nazariy Gorizont", "Leksikografik Tadqiqot", "Estetik Izlanish", "Makroiqtisodiy Model", "Tarixiy Qayta Baholash", "Ijtimoiy Matritsa", "Biotexnologiya Chegarasi", "Kosmologik Doimiy", "Nevrologik Simfoniya", "Epistemologik Savol", "Ekologik Muvozanat", "Kriptografik Jumboq", "Subatomik Olam", "Yulduzlararo Sayohat", "Metafizik Muloqot", "Geologik Era", "Matematik Teorema", "Oliy Sintez"]
+    };
+
     const UNIT_STORIES_DATA = {};
 
     function getStoryForUnit(bookNum, unitNum) {
@@ -15484,6 +15669,8 @@ fortune - omad, katta boylik
 
       const topics = UNIT_TOPICS[b] || [];
       const title = topics[u - 1] || ("Unit " + u + ": Vocabulary Story");
+      const topicsUz = (typeof UNIT_TOPICS_UZ !== 'undefined' && UNIT_TOPICS_UZ[b]) || [];
+      const titleUz = topicsUz[u - 1] ? (topicsUz[u - 1] + " (O'zbekcha Tarjima)") : (title + " (O'zbekcha Tarjima)");
       const unitWords = CORE_WORDS_DB.filter(w => String(w.book) === String(b) && Number(w.unit) === Number(u));
 
       const sentences = [];
@@ -15509,7 +15696,7 @@ fortune - omad, katta boylik
 
       return {
         title: title,
-        titleUz: title + " (To'liq O'zbekcha Tarjima)",
+        titleUz: titleUz,
         sentences: sentences
       };
     }
@@ -15902,7 +16089,11 @@ fortune - omad, katta boylik
       }
 
       const spdSelect = document.getElementById('storySpeedSelect');
-      if (spdSelect) spdSelect.value = String(storySpeechRate || 1.0);
+      if (spdSelect) {
+        const curRate = parseFloat(storySpeechRate) || 1.0;
+        spdSelect.value = (curRate === 1 ? "1" : (curRate === 1.0 ? "1.0" : String(curRate)));
+        if (!spdSelect.value) spdSelect.value = "1";
+      }
 
       const uSelect = document.getElementById('storyUnitSelect');
       if (uSelect) {
