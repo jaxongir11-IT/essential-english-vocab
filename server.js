@@ -188,9 +188,29 @@ function streamFileWithRange(req, res, filePath) {
   }
 }
 
+let cachedIndexHtml = null;
+function getIndexHtml() {
+  if (cachedIndexHtml) return cachedIndexHtml;
+  const candidates = [
+    path.join(__dirname, 'index.html'),
+    path.join(process.cwd(), 'index.html'),
+    path.resolve('index.html')
+  ];
+  for (const c of candidates) {
+    try {
+      if (fs.existsSync(c)) {
+        cachedIndexHtml = fs.readFileSync(c);
+        return cachedIndexHtml;
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
 const server = http.createServer(async (req, res) => {
-  const parsedUrl = url.parse(req.url, true);
-  const pathname = parsedUrl.pathname;
+  const effectiveUrl = req.headers['x-matched-path'] || req.url || '/';
+  const parsedUrl = url.parse(effectiveUrl, true);
+  const pathname = parsedUrl.pathname || '/';
 
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -777,32 +797,40 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Static file serving
-  let reqPath = pathname === '/' ? '/index.html' : pathname;
-  // Decode URL components
-  reqPath = decodeURIComponent(reqPath);
-  const filePath = path.join(ROOT_DIR, reqPath);
+  // Root or index.html direct serving
+  if (pathname === '/' || pathname === '/index.html') {
+    const html = getIndexHtml();
+    if (html) {
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-cache'
+      });
+      res.end(html);
+      return;
+    }
+  }
 
-  // Security: prevent directory traversal
-  if (!filePath.startsWith(ROOT_DIR)) {
-    res.writeHead(403);
-    res.end('Forbidden');
-    return;
+  // Static file serving
+  let reqPath = decodeURIComponent(pathname === '/' ? '/index.html' : pathname);
+  let filePath = path.join(ROOT_DIR, reqPath);
+  if (!fs.existsSync(filePath)) {
+    const cwdPath = path.join(process.cwd(), reqPath);
+    if (fs.existsSync(cwdPath)) {
+      filePath = cwdPath;
+    }
   }
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
       // Fallback to index.html for SPA if not found
-      const indexPath = path.join(ROOT_DIR, 'index.html');
-      fs.readFile(indexPath, (err2, data) => {
-        if (err2) {
-          res.writeHead(404, { 'Content-Type': 'text/plain' });
-          res.end('Not Found');
-          return;
-        }
+      const html = getIndexHtml();
+      if (html) {
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end(data);
-      });
+        res.end(html);
+        return;
+      }
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('Not Found');
       return;
     }
 
