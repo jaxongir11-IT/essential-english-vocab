@@ -822,8 +822,12 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-module.exports = server;
+module.exports = (req, res) => {
+  server.emit('request', req, res);
+};
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Essential English Vocab Mastery server running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Essential English Vocab Mastery server running on port ${PORT}`);
+  });
+}
